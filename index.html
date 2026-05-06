@@ -515,6 +515,52 @@
     font-weight: 600;
   }
 
+
+  /* ─── Manager Level ─── */
+  .mgr-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border-bottom: 1px solid #eef0f5;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .mgr-row:hover { background: #f8f9fc; }
+  .mgr-row:last-child { border-bottom: none; }
+  .mgr-name {
+    flex: 1;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--dark-text);
+  }
+  .mgr-val {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-right: 8px;
+  }
+  .mgr-count {
+    font-size: 9px;
+    background: var(--ice-blue);
+    color: var(--navy);
+    padding: 1px 6px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-right: 8px;
+  }
+  .mgr-chev {
+    font-size: 12px;
+    color: var(--med-gray);
+    transition: transform 0.2s;
+  }
+  .mgr-detail {
+    display: none;
+    background: var(--white);
+    border-top: 1px solid #eef0f5;
+    padding: 0 8px;
+  }
+  .mgr-detail.show { display: block; animation: slideDown 0.2s ease; }
+
   /* ─── Password Gate ─── */
   .pw-overlay {
     position: fixed;
@@ -609,7 +655,7 @@
   <h1>RGD Partners, LP</h1>
   <div class="subtitle">Portfolio Dashboard &nbsp;|&nbsp; Data as of April 7, 2026</div>
   <div class="total-line">
-    <span class="total-val">$54.5M</span>
+    <span class="total-val">$54.6M</span>
     <span class="total-label">Total Portfolio NAV</span>
   </div>
 </div>
@@ -633,7 +679,7 @@
     <div class="stat-label">Illiquid</div>
   </div>
   <div class="stat-card">
-    <div class="stat-val">+$22.2M</div>
+    <div class="stat-val">+$22.3M</div>
     <div class="stat-label">Since 2018</div>
   </div>
 </div>
@@ -689,7 +735,7 @@
   <div class="section-title">Performance Since Inception</div>
   <div class="perf-grid">
     <div class="perf-card highlight">
-      <div class="pv">+$22.2M</div>
+      <div class="pv">+$22.3M</div>
       <div class="pl">Portfolio Growth</div>
     </div>
     <div class="perf-card highlight">
@@ -701,7 +747,7 @@
       <div class="pl">Starting (Jan 2018)</div>
     </div>
     <div class="perf-card">
-      <div class="pv">$54.5M</div>
+      <div class="pv">$54.6M</div>
       <div class="pl">Current NAV</div>
     </div>
     <div class="perf-card">
@@ -725,105 +771,182 @@
 // DATA
 // ══════════════════════════════════════════════════════════════
 
-const TOTAL_NAV = 54464597;
+const TOTAL_NAV = 54593683;
 
 const assetClasses = [
   {
     name: "Private Equity", value: 20208752, pct: 37.1, color: "#1E2761",
-    ipsTarget: "25–35%", ipsRange: [25, 35], ipsPerm: [20, 40],
-    funds: [
-      { name: "Stargen VI Consol.", cat: "PE", vintage: 2012, moic: "2.53x", commitment: 500000, contribs: 727106, distribs: 1913487, nav: 0, q4chg: 68935, ytdchg: 136326, unfunded: 62489 },
-      { name: "Stargen VII Consol.", cat: "PE", vintage: 2015, moic: "3.4x", commitment: 3000000, contribs: 3801492, distribs: 9089961, nav: 1768505, q4chg: -338575, ytdchg: -334187, unfunded: 26838 },
-      { name: "Stargen VIII Consol.", cat: "PE", vintage: 2018, moic: "3.7x", commitment: 3000000, contribs: 3203650, distribs: 5028771, nav: 5678365, q4chg: -786553, ytdchg: -919526, unfunded: 268147 },
-      { name: "Stargen IX", cat: "PE", vintage: 2020, moic: "2.0x", commitment: 3000000, contribs: 2970100, distribs: 3959958, nav: 4270462, q4chg: -94626, ytdchg: -218631, unfunded: 189115 },
-      { name: "Stargen X Consol.", cat: "PE", vintage: 2021, moic: "1.6x", commitment: 5000000, contribs: 4731520, distribs: 1324, nav: 5634950, q4chg: 229702, ytdchg: 348856, unfunded: 439926 },
-      { name: "BVIP Fund VIII", cat: "PE", vintage: 2012, moic: "3.0x", commitment: 2000000, contribs: 1854750, distribs: 3661595, nav: 514163, q4chg: null, ytdchg: 56567, unfunded: 145250 },
-      { name: "BVIP Fund IX", cat: "PE", vintage: 2017, moic: "3.5x", commitment: 1000000, contribs: 1031120, distribs: 1596769, nav: 1053734, q4chg: null, ytdchg: 223844, unfunded: 168880 },
-      { name: "BV RN Continuation", cat: "PE", vintage: 2017, moic: "2.38x", commitment: 592399, contribs: 533291, distribs: 0, nav: 1266473, q4chg: null, ytdchg: 103994, unfunded: 59108 },
-      { name: "PE Core Fund XII", cat: "PE", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 22100, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "GCP V", cat: "PE", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "BVLP VII", cat: "PE", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "Silver Oak II", cat: "PE", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "Essentia Fund 4", cat: "PE", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
+    ipsTarget: "25\u201335%", ipsRange: [25, 35], ipsPerm: [20, 40],
+    managers: [
+      { name: "Genstar", funds: [
+        { name: "Stargen VI Consol.", cat: "PE", vintage: 2012, moic: "2.53x", commitment: 500000, contribs: 727106, distribs: 1913487, nav: 0, q4chg: 68935, ytdchg: 136326, unfunded: 62489 },
+        { name: "Stargen VII Consol.", cat: "PE", vintage: 2015, moic: "3.4x", commitment: 3000000, contribs: 3801492, distribs: 9089961, nav: 1768505, q4chg: -338575, ytdchg: -334187, unfunded: 26838 },
+        { name: "Stargen VIII Consol.", cat: "PE", vintage: 2018, moic: "3.7x", commitment: 3000000, contribs: 3203650, distribs: 5028771, nav: 5678365, q4chg: -786553, ytdchg: -919526, unfunded: 268147 },
+        { name: "Stargen IX", cat: "PE", vintage: 2020, moic: "2.0x", commitment: 3000000, contribs: 2970100, distribs: 3959958, nav: 4270462, q4chg: -94626, ytdchg: -218631, unfunded: 189115 },
+        { name: "Stargen X Consol.", cat: "PE", vintage: 2021, moic: "1.6x", commitment: 5000000, contribs: 4731520, distribs: 1324, nav: 5634950, q4chg: 229702, ytdchg: 348856, unfunded: 439926 },
+        { name: "GCP V", cat: "PE", vintage: 2007, moic: "3.3x", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
+      ]},
+      { name: "Boston Ventures", funds: [
+        { name: "BVIP Fund VIII", cat: "PE", vintage: 2012, moic: "3.0x", commitment: 2000000, contribs: 1854750, distribs: 3661595, nav: 514163, q4chg: null, ytdchg: 56567, unfunded: 145250 },
+        { name: "BVIP Fund IX", cat: "PE", vintage: 2017, moic: "3.5x", commitment: 1000000, contribs: 1031120, distribs: 1596769, nav: 1053734, q4chg: null, ytdchg: 223844, unfunded: 168880 },
+        { name: "BV RN Continuation", cat: "PE", vintage: 2017, moic: "2.38x", commitment: 592399, contribs: 533291, distribs: 0, nav: 1266473, q4chg: null, ytdchg: 103994, unfunded: 59108 },
+        { name: "BVLP VII", cat: "PE", vintage: 2006, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
+      ]},
+      { name: "Silver Oak", funds: [
+        { name: "Silver Oak II", cat: "PE", vintage: 2013, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
+      ]},
+      { name: "50 South Capital", funds: [
+        { name: "PE Core Fund XII", cat: "PE", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 22100, q4chg: null, ytdchg: null, unfunded: null },
+      ]},
     ]
   },
   {
     name: "Public Equities", value: 13184423, pct: 24.2, color: "#2E4A8E",
-    ipsTarget: "20–30%", ipsRange: [20, 30], ipsPerm: [15, 35],
-    funds: [
-      { name: "Northern Trust Equities", cat: "EQ", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 9859849, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "NT Structured Note + Exchange Fund", cat: "EQ", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 3188980, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "Merrill Lynch Mutual Funds", cat: "MF", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 135595, q4chg: null, ytdchg: null, unfunded: null },
+    ipsTarget: "20\u201330%", ipsRange: [20, 30], ipsPerm: [15, 35],
+    managers: [
+      { name: "Northern Trust", funds: [
+        { name: "Northern Trust Equities", cat: "EQ", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 9859849, q4chg: null, ytdchg: null, unfunded: null },
+        { name: "NT Structured Note + Exchange Fund", cat: "EQ", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 3188980, q4chg: null, ytdchg: null, unfunded: null },
+      ]},
+      { name: "Merrill Lynch", funds: [
+        { name: "Merrill Lynch Mutual Funds", cat: "MF", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 135595, q4chg: null, ytdchg: null, unfunded: null },
+      ]},
     ]
   },
   {
-    name: "Venture Capital", value: 10453262, pct: 19.2, color: "#1A8CAA",
-    ipsTarget: "10–18%", ipsRange: [10, 18], ipsPerm: [5, 22],
-    funds: [
-      { name: "OV Opp Fund I", cat: "VC", vintage: 2021, moic: "1.9x", commitment: 750000, contribs: 731250, distribs: 0, nav: 1209636, q4chg: null, ytdchg: 335363, unfunded: null },
-      { name: "Good Growth II", cat: "VC", vintage: 2021, moic: "1.14x", commitment: 1000000, contribs: 935928, distribs: 0, nav: 880345, q4chg: -13012, ytdchg: null, unfunded: 64072 },
-      { name: "OV3 (Okapi)", cat: "VC", vintage: 2017, moic: "2.2x", commitment: 500000, contribs: 487500, distribs: null, nav: 754603, q4chg: null, ytdchg: 150654, unfunded: null },
-      { name: "Firework Ventures", cat: "VC", vintage: 2019, moic: "1.8x", commitment: 500000, contribs: 469063, distribs: 0, nav: 665406, q4chg: -29088, ytdchg: -63078, unfunded: 30937 },
-      { name: "Full Cycle Climate", cat: "VC", vintage: 2021, moic: "0.93x", commitment: 500000, contribs: 500000, distribs: 0, nav: 464978, q4chg: null, ytdchg: -2061, unfunded: 0 },
-      { name: "Good Growth III", cat: "VC", vintage: 2024, moic: "1.03x", commitment: 1000000, contribs: 518509, distribs: 0, nav: 462683, q4chg: -5604, ytdchg: null, unfunded: 481491 },
-      { name: "OV IV (Okapi)", cat: "VC", vintage: 2020, moic: "1.0x", commitment: 500000, contribs: 457500, distribs: 0, nav: 383662, q4chg: null, ytdchg: -58568, unfunded: null },
-      { name: "Ankona Capital I", cat: "VC", vintage: 2021, moic: "1.85x", commitment: 250000, contribs: 250000, distribs: 0, nav: 370459, q4chg: null, ytdchg: 13946, unfunded: 0 },
-      { name: "Ankona Capital II", cat: "VC", vintage: 2023, moic: "1.39x", commitment: 500000, contribs: 252750, distribs: 0, nav: 303053, q4chg: null, ytdchg: 14282, unfunded: 247250 },
-      { name: "Astia Venture", cat: "VC", vintage: 2015, moic: "~0.72x", commitment: 500000, contribs: 358560, distribs: 0, nav: 258803, q4chg: -4703, ytdchg: null, unfunded: 141440 },
-      { name: "Regeneration.vc I", cat: "VC", vintage: 2020, moic: "1.29x", commitment: 250000, contribs: 200000, distribs: 0, nav: 172254, q4chg: 22527, ytdchg: 31890, unfunded: 50000 },
-      { name: "Farmtrace", cat: "Angel", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 154823, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "True Wealth II", cat: "VC", vintage: 2022, moic: "0.83x", commitment: 500000, contribs: 215000, distribs: 0, nav: 132617, q4chg: 4204, ytdchg: -4880, unfunded: 285000 },
-      { name: "GGC ICF II", cat: "VC", vintage: 2022, moic: "1.52x", commitment: 100000, contribs: 96917, distribs: 0, nav: 127453, q4chg: 14107, ytdchg: null, unfunded: 3083 },
-      { name: "Ankona Holdings II", cat: "VC", vintage: 2021, moic: "1.21x", commitment: 100000, contribs: 100000, distribs: 0, nav: 121471, q4chg: null, ytdchg: 1327, unfunded: 0 },
-      { name: "MarginEdge", cat: "Angel", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 100000, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "OV5", cat: "VC", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "Portfolia Active Aging", cat: "VC", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "Portfolia Rising America", cat: "VC", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
+    name: "Venture Capital", value: 6436509, pct: 11.8, color: "#1A8CAA",
+    ipsTarget: "10\u201318%", ipsRange: [10, 18], ipsPerm: [5, 22],
+    managers: [
+      { name: "Good Growth Capital", funds: [
+        { name: "Good Growth II", cat: "VC", vintage: 2021, moic: "1.14x", commitment: 1000000, contribs: 935928, distribs: 0, nav: 880345, q4chg: -13012, ytdchg: null, unfunded: 64072 },
+        { name: "Good Growth III", cat: "VC", vintage: 2024, moic: "1.03x", commitment: 1000000, contribs: 518509, distribs: 0, nav: 462683, q4chg: -5604, ytdchg: null, unfunded: 481491 },
+        { name: "GGC ICF II", cat: "VC", vintage: 2022, moic: "1.52x", commitment: 100000, contribs: 96917, distribs: 0, nav: 127453, q4chg: 14107, ytdchg: null, unfunded: 3083 },
+      ]},
+      { name: "Okapi Ventures", funds: [
+        { name: "OV Opp Fund I", cat: "VC", vintage: 2021, moic: "1.9x", commitment: 750000, contribs: 731250, distribs: 0, nav: 1209636, q4chg: null, ytdchg: 335363, unfunded: null },
+        { name: "OV3 (Okapi)", cat: "VC", vintage: 2017, moic: "2.2x", commitment: 500000, contribs: 487500, distribs: null, nav: 754603, q4chg: null, ytdchg: 150654, unfunded: null },
+        { name: "OV IV (Okapi)", cat: "VC", vintage: 2020, moic: "1.0x", commitment: 500000, contribs: 457500, distribs: 0, nav: 383662, q4chg: null, ytdchg: -58568, unfunded: null },
+        { name: "OV5", cat: "VC", vintage: 2024, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
+      ]},
+      { name: "Ankona", funds: [
+        { name: "Ankona Capital I", cat: "VC", vintage: 2021, moic: "1.85x", commitment: 250000, contribs: 250000, distribs: 0, nav: 370459, q4chg: null, ytdchg: 13946, unfunded: 0 },
+        { name: "Ankona Capital II", cat: "VC", vintage: 2023, moic: "1.39x", commitment: 500000, contribs: 252750, distribs: 0, nav: 303053, q4chg: null, ytdchg: 14282, unfunded: 247250 },
+      ]},
+      { name: "Kalos", funds: [
+        { name: "Kalos Fund 1", cat: "VC", vintage: 2024, moic: "0.80x", commitment: 500000, contribs: 100000, distribs: 0, nav: 80272, q4chg: null, ytdchg: null, unfunded: 400000 },
+        { name: "Firework Ventures", cat: "VC", vintage: 2019, moic: "1.8x", commitment: 500000, contribs: 469063, distribs: 0, nav: 665406, q4chg: -29088, ytdchg: -63078, unfunded: 30937 },
+      ]},
+      { name: "Full Cycle", funds: [
+        { name: "Full Cycle Climate", cat: "VC", vintage: 2021, moic: "0.93x", commitment: 500000, contribs: 500000, distribs: 0, nav: 464978, q4chg: null, ytdchg: -2061, unfunded: 0 },
+      ]},
+      { name: "Astia", funds: [
+        { name: "Astia Venture", cat: "VC", vintage: 2015, moic: "~0.72x", commitment: 500000, contribs: 358560, distribs: 0, nav: 258803, q4chg: -4703, ytdchg: null, unfunded: 141440 },
+      ]},
+      { name: "Regeneration.vc", funds: [
+        { name: "Regeneration.vc I", cat: "VC", vintage: 2020, moic: "1.29x", commitment: 250000, contribs: 200000, distribs: 0, nav: 172254, q4chg: 22527, ytdchg: 31890, unfunded: 50000 },
+      ]},
+      { name: "True Wealth", funds: [
+        { name: "True Wealth II", cat: "VC", vintage: 2022, moic: "0.83x", commitment: 500000, contribs: 215000, distribs: 0, nav: 132617, q4chg: 4204, ytdchg: -4880, unfunded: 285000 },
+      ]},
+      { name: "Portfolia", funds: [
+        { name: "Portfolia Active Aging", cat: "VC", vintage: 2020, moic: "1.19x", commitment: 25000, contribs: 25000, distribs: 0, nav: 29862, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Portfolia Rising America", cat: "VC", vintage: 2019, moic: "2.81x", commitment: 50000, contribs: 50000, distribs: 0, nav: 140423, q4chg: null, ytdchg: null, unfunded: 0 },
+      ]},
+    ]
+  },
+  {
+    name: "Angel", value: 4145839, pct: 7.6, color: "#8B4513",
+    ipsTarget: "0\u20135%", ipsRange: [0, 5], ipsPerm: [0, 8],
+    managers: [
+      { name: "Direct Angel", funds: [
+        { name: "Longevity Holdings", cat: "Angel", vintage: null, moic: "N/A", commitment: 1750000, contribs: 1750000, distribs: null, nav: 1750000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "MarginEdge", cat: "Angel", vintage: null, moic: "N/A", commitment: 300000, contribs: 300000, distribs: null, nav: 300000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Midas Education (TCA)", cat: "Angel", vintage: null, moic: "N/A", commitment: 25000, contribs: 25000, distribs: null, nav: 25000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Conservation Labs", cat: "Angel", vintage: null, moic: "N/A", commitment: 75000, contribs: 75000, distribs: null, nav: 75000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Blue Technology", cat: "Angel", vintage: null, moic: "N/A", commitment: 75000, contribs: 75000, distribs: null, nav: 75000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Cargosense", cat: "Angel", vintage: null, moic: "N/A", commitment: 25000, contribs: 25000, distribs: null, nav: 25000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "AllVoices", cat: "Angel", vintage: null, moic: "N/A", commitment: 50000, contribs: 50000, distribs: null, nav: 50000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Trackstreet", cat: "Angel", vintage: null, moic: "N/A", commitment: 86868, contribs: 86868, distribs: null, nav: 86868, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "First Women\'s Bank", cat: "Angel", vintage: null, moic: "N/A", commitment: 250000, contribs: 250000, distribs: null, nav: 250000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Tallyfor", cat: "Angel", vintage: null, moic: "N/A", commitment: 100000, contribs: 100000, distribs: null, nav: 100000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "White Leaf Provisions", cat: "Angel", vintage: null, moic: "N/A", commitment: 210000, contribs: 210000, distribs: null, nav: 210000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Meetcaregivers", cat: "Angel", vintage: null, moic: "N/A", commitment: 15000, contribs: 15000, distribs: null, nav: 15000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Ankona VideoAmp", cat: "Angel", vintage: null, moic: "N/A", commitment: 121471, contribs: 121471, distribs: null, nav: 121471, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "GGC Bounce", cat: "Angel", vintage: null, moic: "N/A", commitment: 50000, contribs: 50000, distribs: null, nav: 50000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "GGC CoapTech", cat: "Angel", vintage: null, moic: "N/A", commitment: 50000, contribs: 50000, distribs: null, nav: 50000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "TWV Refiberd", cat: "Angel", vintage: null, moic: "N/A", commitment: 50000, contribs: 50000, distribs: null, nav: 50000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "FWV Tilt", cat: "Angel", vintage: null, moic: "N/A", commitment: 50000, contribs: 50000, distribs: null, nav: 50000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "4P Foods", cat: "Angel", vintage: null, moic: "N/A", commitment: 50000, contribs: 50000, distribs: null, nav: 50000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Farmtrace", cat: "Angel", vintage: null, moic: "N/A", commitment: 437500, contribs: 437500, distribs: null, nav: 437500, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Highland Materials", cat: "Angel", vintage: null, moic: "N/A", commitment: 250000, contribs: 250000, distribs: null, nav: 250000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Twentyeight Health", cat: "Angel", vintage: null, moic: "N/A", commitment: 125000, contribs: 125000, distribs: null, nav: 125000, q4chg: null, ytdchg: null, unfunded: 0 },
+      ]},
     ]
   },
   {
     name: "Real Estate", value: 3932230, pct: 7.2, color: "#E8B94A",
-    ipsTarget: "8–15%", ipsRange: [8, 15], ipsPerm: [5, 18],
-    funds: [
-      { name: "RanchHarbor", cat: "RE", vintage: 2021, moic: "1.13x", commitment: 1050000, contribs: 1158627, distribs: 496467, nav: 807831, q4chg: null, ytdchg: null, unfunded: 0 },
-      { name: "Three Pillar Fund 1", cat: "RE", vintage: 2021, moic: "1.11x", commitment: 500000, contribs: 500000, distribs: 122524, nav: 431562, q4chg: null, ytdchg: null, unfunded: 0 },
-      { name: "Three Pillar Directs", cat: "RE", vintage: 2020, moic: "1.09x", commitment: 462622, contribs: 462622, distribs: 78507, nav: 427511, q4chg: null, ytdchg: null, unfunded: 0 },
-      { name: "PCCP Equity VIII", cat: "RE", vintage: 2018, moic: "1.35x", commitment: 500000, contribs: 581042, distribs: 391252, nav: 331449, q4chg: -50057, ytdchg: -78094, unfunded: 52997 },
-      { name: "Related OZ Fund III", cat: "OZ", vintage: 2024, moic: "~1.11x", commitment: 250000, contribs: 250000, distribs: 0, nav: 278213, q4chg: null, ytdchg: null, unfunded: 0 },
-      { name: "Related OZ Fund II", cat: "OZ", vintage: 2021, moic: "1.20x", commitment: 250000, contribs: 250000, distribs: 30076, nav: 269540, q4chg: null, ytdchg: 196, unfunded: 0 },
-      { name: "Argosy RE OZ I", cat: "OZ", vintage: 2021, moic: "1.13x", commitment: 250000, contribs: 250000, distribs: 3667, nav: 278360, q4chg: null, ytdchg: 10747, unfunded: 0 },
-      { name: "IEQ - Bridge MF IV", cat: "RE", vintage: 2018, moic: "1.55x", commitment: 250000, contribs: 259898, distribs: 91722, nav: 267690, q4chg: -21394, ytdchg: -27516, unfunded: 0 },
-      { name: "Argosy RE OZ II", cat: "OZ", vintage: 2023, moic: "1.01x", commitment: 250000, contribs: 250000, distribs: 0, nav: 252950, q4chg: null, ytdchg: -15251, unfunded: 0 },
-      { name: "TenFederal", cat: "RE", vintage: 2024, moic: "1.10x", commitment: 250000, contribs: 250000, distribs: 27810, nav: 247350, q4chg: null, ytdchg: null, unfunded: 0 },
-      { name: "Three Pillar Fund 2", cat: "RE", vintage: 2022, moic: "1.16x", commitment: 150000, contribs: 150000, distribs: 34440, nav: 139774, q4chg: null, ytdchg: null, unfunded: 0 },
-      { name: "LPP Crescent Ridge", cat: "RE", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 100000, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "Clinton Cameron OZ", cat: "OZ", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 50000, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "LPP (Laguna Point)", cat: "RE", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
-      { name: "RanchHarbor Fund 1", cat: "RE", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 0, q4chg: null, ytdchg: null, unfunded: null },
+    ipsTarget: "8\u201315%", ipsRange: [8, 15], ipsPerm: [5, 18],
+    managers: [
+      { name: "RanchHarbor", funds: [
+        { name: "RanchHarbor", cat: "RE", vintage: 2021, moic: "1.13x", commitment: 1050000, contribs: 1158627, distribs: 496467, nav: 807831, q4chg: null, ytdchg: null, unfunded: 0 },
+      ]},
+      { name: "Three Pillars", funds: [
+        { name: "Three Pillar Fund 1", cat: "RE", vintage: 2021, moic: "1.11x", commitment: 500000, contribs: 500000, distribs: 122524, nav: 431562, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Three Pillar Fund 2", cat: "RE", vintage: 2022, moic: "1.16x", commitment: 150000, contribs: 150000, distribs: 34440, nav: 139774, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Three Pillar Directs", cat: "RE", vintage: 2020, moic: "1.09x", commitment: 462622, contribs: 462622, distribs: 78507, nav: 427511, q4chg: null, ytdchg: null, unfunded: 0 },
+      ]},
+      { name: "IEQ", funds: [
+        { name: "Related OZ Fund II", cat: "OZ", vintage: 2021, moic: "1.20x", commitment: 250000, contribs: 250000, distribs: 30076, nav: 269540, q4chg: null, ytdchg: 196, unfunded: 0 },
+        { name: "Related OZ Fund III", cat: "OZ", vintage: 2024, moic: "~1.11x", commitment: 250000, contribs: 250000, distribs: 0, nav: 278213, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "Argosy RE OZ I", cat: "OZ", vintage: 2021, moic: "1.13x", commitment: 250000, contribs: 250000, distribs: 3667, nav: 278360, q4chg: null, ytdchg: 10747, unfunded: 0 },
+        { name: "Argosy RE OZ II", cat: "OZ", vintage: 2023, moic: "1.01x", commitment: 250000, contribs: 250000, distribs: 0, nav: 252950, q4chg: null, ytdchg: -15251, unfunded: 0 },
+        { name: "PCCP Equity VIII", cat: "RE", vintage: 2018, moic: "1.35x", commitment: 500000, contribs: 581042, distribs: 391252, nav: 331449, q4chg: -50057, ytdchg: -78094, unfunded: 52997 },
+        { name: "IEQ - Bridge MF IV", cat: "RE", vintage: 2018, moic: "1.55x", commitment: 250000, contribs: 259898, distribs: 91722, nav: 267690, q4chg: -21394, ytdchg: -27516, unfunded: 0 },
+      ]},
+      { name: "Clinton Cameron", funds: [
+        { name: "Clinton Cameron OZ", cat: "OZ", vintage: 2020, moic: "1.0x", commitment: 200000, contribs: 200000, distribs: 0, nav: 200000, q4chg: null, ytdchg: null, unfunded: 0 },
+      ]},
+      { name: "TenFederal", funds: [
+        { name: "TenFederal", cat: "RE", vintage: 2024, moic: "1.10x", commitment: 250000, contribs: 250000, distribs: 27810, nav: 247350, q4chg: null, ytdchg: null, unfunded: 0 },
+      ]},
     ]
   },
   {
     name: "Cash", value: 3151430, pct: 5.8, color: "#B0B8C0",
-    ipsTarget: "4–6%", ipsRange: [4, 6], ipsPerm: [3, 8],
-    funds: [
-      { name: "NT & ML Cash / Money Market", cat: "Cash", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 3151430, q4chg: null, ytdchg: null, unfunded: null },
+    ipsTarget: "4\u20136%", ipsRange: [4, 6], ipsPerm: [3, 8],
+    managers: [
+      { name: "Cash & Equivalents", funds: [
+        { name: "NT & ML Cash / Money Market", cat: "Cash", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 3151430, q4chg: null, ytdchg: null, unfunded: null },
+      ]},
     ]
   },
   {
     name: "Credit", value: 1818496, pct: 3.3, color: "#C0392B",
-    ipsTarget: "3–8%", ipsRange: [3, 8], ipsPerm: [0, 10],
-    funds: [
-      { name: "Golub Capital X", cat: "Credit", vintage: 2017, moic: "1.78x", commitment: 500000, contribs: 437500, distribs: 339947, nav: 444544, q4chg: null, ytdchg: null, unfunded: 354857 },
-      { name: "OCIP", cat: "Credit", vintage: 2024, moic: "0.92x", commitment: 250000, contribs: 187500, distribs: 10949, nav: 161478, q4chg: 5492, ytdchg: 3443, unfunded: 65544 },
-      { name: "OCIP AccelCo 1", cat: "Credit", vintage: 2024, moic: "1.13x", commitment: 100000, contribs: 100000, distribs: 7615, nav: 105137, q4chg: null, ytdchg: 18537, unfunded: 0 },
-      { name: "Perennial Fund I", cat: "Credit", vintage: 2020, moic: "1.18x", commitment: 50000, contribs: 50000, distribs: 27250, nav: 31996, q4chg: null, ytdchg: 1048, unfunded: 0 },
+    ipsTarget: "3\u20138%", ipsRange: [3, 8], ipsPerm: [0, 10],
+    managers: [
+      { name: "Overlay Capital", funds: [
+        { name: "OCIP", cat: "Credit", vintage: 2024, moic: "0.92x", commitment: 250000, contribs: 187500, distribs: 10949, nav: 161478, q4chg: 5492, ytdchg: 3443, unfunded: 65544 },
+        { name: "OCIP AccelCo 1", cat: "Credit", vintage: 2024, moic: "1.13x", commitment: 100000, contribs: 100000, distribs: 7615, nav: 105137, q4chg: null, ytdchg: 18537, unfunded: 0 },
+      ]},
+      { name: "Golub", funds: [
+        { name: "Golub Capital X", cat: "Credit", vintage: 2017, moic: "1.78x", commitment: 500000, contribs: 437500, distribs: 339947, nav: 444544, q4chg: null, ytdchg: null, unfunded: 354857 },
+      ]},
+      { name: "MadAg (Perennial)", funds: [
+        { name: "Perennial Fund I", cat: "Credit", vintage: 2020, moic: "1.18x", commitment: 50000, contribs: 50000, distribs: 27250, nav: 31996, q4chg: null, ytdchg: 1048, unfunded: 0 },
+      ]},
+      { name: "Mortgages", funds: [
+        { name: "2016 Via Aguila", cat: "Credit", vintage: 2016, moic: "N/A", commitment: 1000000, contribs: 1000000, distribs: null, nav: 1000000, q4chg: null, ytdchg: null, unfunded: 0 },
+        { name: "3400 Sunnyside", cat: "Credit", vintage: null, moic: "N/A", commitment: 75341, contribs: 75341, distribs: null, nav: 75341, q4chg: null, ytdchg: null, unfunded: 0 },
+      ]},
     ]
   },
   {
     name: "Fixed Income", value: 1716004, pct: 3.2, color: "#9B72CF",
-    ipsTarget: "8–12%", ipsRange: [8, 12], ipsPerm: [5, 15],
-    funds: [
-      { name: "Muni Bonds + Muni Bond Funds (NT)", cat: "FI", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 1716004, q4chg: null, ytdchg: null, unfunded: null },
+    ipsTarget: "8\u201312%", ipsRange: [8, 12], ipsPerm: [5, 15],
+    managers: [
+      { name: "Northern Trust", funds: [
+        { name: "Muni Bonds + Muni Bond Funds (NT)", cat: "FI", vintage: null, moic: "N/A", commitment: null, contribs: null, distribs: null, nav: 1716004, q4chg: null, ytdchg: null, unfunded: null },
+      ]},
     ]
   },
 ];
@@ -832,12 +955,11 @@ const assetClasses = [
 // RENDER: Allocation Bar
 // ══════════════════════════════════════════════════════════════
 
-// Portfolio company data (extracted from fund reports)
-const COMPANIES = {"Stargen VII Consol.":[{"n":"ConnectiveRx","c":146300000.0,"f":347800000.0,"r":258500000.0,"m":"4.14x"},{"n":"Community Brands","c":180000000.0,"f":99000000.0,"r":383900000.0,"m":"2.68x"},{"n":"Ascensus","c":164100000.0,"f":172600000.0,"r":669200000.0,"m":"5.13x"},{"n":"Accruent","c":206600000.0,"f":0.0,"r":464300000.0,"m":"2.25x"},{"n":"Infinite Electronics","c":224300000.0,"f":0.0,"r":855700000.0,"m":"3.81x"},{"n":"Sphera","c":150800000.0,"f":0.0,"r":1046400000.0,"m":"6.94x"},{"n":"AMBA","c":82300000.0,"f":0.0,"r":412300000.0,"m":"5.01x"},{"n":"ECM Industries","c":146000000.0,"f":0.0,"r":655500000.0,"m":"4.49x"},{"n":"Alera Group","c":139600000.0,"f":0.0,"r":737600000.0,"m":"5.28x"},{"n":"Signant Health","c":250000000.0,"f":454800000.0,"r":12500000.0,"m":"1.87x"},{"n":"Stack Sports","c":280400000.0,"f":129600000.0,"r":1400000.0,"m":"0.47x"},{"n":"Enverus","c":43700000.0,"f":1100000.0,"r":150100000.0,"m":"3.46x"},{"n":"Cetera Financial","c":78800000.0,"f":0.0,"r":347700000.0,"m":"4.41x"}],"Stargen VIII Consol.":[{"n":"PDI","c":152900000.0,"f":343000000.0,"r":349500000.0,"m":"4.53x"},{"n":"Bullhorn","c":108500000.0,"f":139900000.0,"r":266000000.0,"m":"3.74x"},{"n":"ISS (isQFt)","c":291100000.0,"f":0.0,"r":991100000.0,"m":"3.40x"},{"n":"Enverus","c":361500000.0,"f":9200000.0,"r":1242700000.0,"m":"3.46x"},{"n":"TerrenePower","c":376500000.0,"f":185900000.0,"r":796600000.0,"m":"2.61x"},{"n":"Cetera Financial","c":361600000.0,"f":519800000.0,"r":1234000000.0,"m":"4.85x"},{"n":"2-10 Home Buyers Warranty","c":107600000.0,"f":2000000.0,"r":479600000.0,"m":"4.48x"},{"n":"Signant Health","c":390000000.0,"f":701800000.0,"r":19200000.0,"m":"1.85x"},{"n":"Apex Group","c":163500000.0,"f":1855000000.0,"r":733300000.0,"m":"15.83x"},{"n":"Tekni-Plex","c":345200000.0,"f":637800000.0,"r":0.0,"m":"1.85x"},{"n":"OTC Industrial","c":356500000.0,"f":840300000.0,"r":0.0,"m":"2.36x"},{"n":"ACA Group","c":100000000.0,"f":144800000.0,"r":144800000.0,"m":"2.90x"}],"Stargen X Consol.":[{"n":"Arrowhead Engineered Products","c":914800000.0,"f":162900000.0,"r":162900000.0,"m":"0.36x"},{"n":"ACA Group","c":732800000.0,"f":1046300000.0,"r":0.0,"m":"1.43x"},{"n":"Alera Group","c":904800000.0,"f":1417300000.0,"r":0.0,"m":"1.57x"},{"n":"Daxko","c":324500000.0,"f":566700000.0,"r":0.0,"m":"1.75x"},{"n":"Brook & Whittle","c":743500000.0,"f":260300000.0,"r":500000.0,"m":"0.35x"},{"n":"Procure Analytics","c":550100000.0,"f":711800000.0,"r":0.0,"m":"1.29x"},{"n":"Inside Real Estate","c":290800000.0,"f":297400000.0,"r":0.0,"m":"1.02x"},{"n":"Lightspeed","c":170900000.0,"f":173900000.0,"r":0.0,"m":"1.02x"},{"n":"Abracon","c":299500000.0,"f":0.0,"r":0.0,"m":null},{"n":"Cerity Partners","c":640900000.0,"f":2115400000.0,"r":0.0,"m":"3.30x"},{"n":"Apex Sanne","c":666000000.0,"f":714500000.0,"r":0.0,"m":"1.07x"},{"n":"Numerix","c":483100000.0,"f":960900000.0,"r":0.0,"m":"1.99x"},{"n":"AmeriLife","c":645100000.0,"f":1150200000.0,"r":28200000.0,"m":"1.83x"},{"n":"JSSI","c":616500000.0,"f":1132700000.0,"r":313900000.0,"m":"2.35x"},{"n":"Likewize","c":644100000.0,"f":669600000.0,"r":0.0,"m":"1.04x"},{"n":"SEER","c":449400000.0,"f":366600000.0,"r":0.0,"m":"0.82x"},{"n":"Cetera Financial","c":382200000.0,"f":545200000.0,"r":2900000.0,"m":"1.43x"}],"BVIP Fund IX":[{"n":"Consero Global Solutions","c":60000000.0,"f":197200000.0,"r":500000.0,"m":"3.29x"},{"n":"StraighterLine","c":109200000.0,"f":152100000.0,"r":0.0,"m":"1.39x"},{"n":"Veracross","c":89100000.0,"f":411500000.0,"r":38800000.0,"m":"5.05x"},{"n":"Frontline Managed Services","c":30135053.0,"f":0.0,"r":44596117.0,"m":"1.48x"},{"n":"EDCO Health Information Solutions","c":27596089.0,"f":0.0,"r":278970213.0,"m":"10.11x"},{"n":"Franco Signor","c":16956122.0,"f":0.0,"r":44596117.0,"m":"2.63x"},{"n":"CivicPlus","c":23806412.0,"f":0.0,"r":63075053.0,"m":"2.65x"},{"n":"Apps Associates / RafterOne","c":18651735.0,"f":0.0,"r":69659754.0,"m":"3.73x"},{"n":"RKD Group Holdings","c":38610181.0,"f":0.0,"r":175999846.0,"m":"4.56x"}],"OV Opp Fund I":[{"n":"FigureAI","c":2000000.0,"f":10600000.0,"r":0.0,"m":"5.30x"},{"n":"Specright","c":6900000.0,"f":12400000.0,"r":0.0,"m":"1.80x"},{"n":"Trellis Research","c":3300000.0,"f":4600000.0,"r":0.0,"m":"1.40x"},{"n":"Slingshot Aerospace","c":3000000.0,"f":4300000.0,"r":0.0,"m":"1.40x"},{"n":"Daasity","c":2400000.0,"f":2400000.0,"r":0.0,"m":"1.00x"},{"n":"ChargeZoom","c":1200000.0,"f":1200000.0,"r":0.0,"m":"1.00x"},{"n":"TrackStreet","c":600000.0,"f":900000.0,"r":0.0,"m":"1.50x"}],"OV IV (Okapi)":[{"n":"Network Perception","c":2171000.0,"f":5593000.0,"r":0.0,"m":"2.60x"},{"n":"ChargeZoom","c":2877000.0,"f":4452000.0,"r":0.0,"m":"1.50x"},{"n":"Occuspace","c":1900000.0,"f":2628000.0,"r":0.0,"m":"1.40x"},{"n":"WeGive","c":1105000.0,"f":1784000.0,"r":0.0,"m":"1.60x"},{"n":"Trnsact","c":700000.0,"f":1730000.0,"r":0.0,"m":"2.50x"},{"n":"PlanStreet","c":1000000.0,"f":1558000.0,"r":0.0,"m":"1.60x"},{"n":"StockApp","c":1500000.0,"f":1500000.0,"r":0.0,"m":"1.00x"},{"n":"LeadrPro","c":750000.0,"f":1125000.0,"r":0.0,"m":"1.50x"},{"n":"GoodHood","c":800000.0,"f":814000.0,"r":0.0,"m":"1.00x"},{"n":"KredosAI","c":794000.0,"f":802000.0,"r":0.0,"m":"1.00x"},{"n":"Candid Wholesale","c":550000.0,"f":550000.0,"r":0.0,"m":"1.00x"},{"n":"MAYU Water","c":500000.0,"f":500000.0,"r":0.0,"m":"1.00x"},{"n":"Paladin Cloud","c":2000000.0,"f":200000.0,"r":0.0,"m":"0.10x"},{"n":"Exponential Intelligence","c":150000.0,"f":150000.0,"r":0.0,"m":"1.00x"},{"n":"Fluid Power AI","c":500000.0,"f":100000.0,"r":0.0,"m":"0.20x"},{"n":"DepoDirect","c":2000000.0,"f":0.0,"r":0.0,"m":null},{"n":"Multiplayer","c":1500000.0,"f":0.0,"r":0.0,"m":null},{"n":"DeepCast","c":850000.0,"f":0.0,"r":0.0,"m":null},{"n":"NotiSphere","c":1350000.0,"f":0.0,"r":0.0,"m":null},{"n":"Violux","c":920000.0,"f":0.0,"r":0.0,"m":null}],"Firework Ventures":[{"n":"Braintrust (BTRST)","c":400000.0,"f":140602.0,"r":0.0,"m":"0.40x"},{"n":"Career Allies","c":6499998.0,"f":11500251.0,"r":0.0,"m":"1.80x"},{"n":"Clasp Group","c":9568306.0,"f":9831094.0,"r":0.0,"m":"1.00x"},{"n":"Degreed","c":10000000.0,"f":11321311.0,"r":0.0,"m":"1.10x"},{"n":"HeyMirza","c":5999999.0,"f":7172708.0,"r":0.0,"m":"1.20x"},{"n":"Hone Group","c":704225.0,"f":2133802.0,"r":0.0,"m":"3.00x"},{"n":"Ligilo","c":4786364.0,"f":10000000.0,"r":0.0,"m":"2.10x"},{"n":"Podium Education","c":4640994.0,"f":6160000.0,"r":0.0,"m":"1.30x"},{"n":"Transfr","c":206440.0,"f":2572284.0,"r":0.0,"m":"12.50x"}],"Regeneration.vc I":[{"n":"CleanO2 Carbon Capture Technologies","c":2290000.0,"f":2292069.0,"r":0.0,"m":"1.00x"},{"n":"Meridia Land B.V.","c":618716.0,"f":663030.0,"r":0.0,"m":"1.10x"},{"n":"Ruminant Biotech Corp","c":1870976.0,"f":2410354.0,"r":0.0,"m":"1.30x"},{"n":"SPVRKD Pte. Ltd.","c":351.0,"f":351.0,"r":0.0,"m":"1.00x"},{"n":"Pangaia Materials Science","c":1500052.0,"f":1500052.0,"r":0.0,"m":"1.00x"},{"n":"Colorifix","c":1500052.0,"f":1500052.0,"r":0.0,"m":"1.00x"},{"n":"Inheriting Earth","c":2959173.0,"f":3931675.0,"r":0.0,"m":"1.30x"},{"n":"Nature Coatings","c":2374518.0,"f":4008021.0,"r":0.0,"m":"1.70x"},{"n":"Tulou Community","c":2855581.0,"f":3399244.0,"r":0.0,"m":null}],"Full Cycle Climate":[{"n":"Synova","c":null,"f":null,"r":0.0,"m":null},{"n":"Evrnu","c":null,"f":null,"r":0.0,"m":null},{"n":"Burcell","c":null,"f":null,"r":0.0,"m":null},{"n":"InPipe Energy","c":null,"f":null,"r":0.0,"m":null}],"Good Growth II":[{"n":"Obsidio","c":500000.0,"f":0.0,"r":3172089.0,"m":"6.30x"},{"n":"Thiozen","c":670000.0,"f":670000.0,"r":0.0,"m":"1.00x"},{"n":"Pryon","c":4999995.0,"f":9849406.0,"r":0.0,"m":"2.00x"},{"n":"Lemurian Labs","c":450000.0,"f":1544913.0,"r":0.0,"m":"3.40x"},{"n":"Radia","c":6999908.0,"f":10181813.0,"r":0.0,"m":"1.50x"},{"n":"Liminal","c":3905845.0,"f":5124730.0,"r":0.0,"m":"1.30x"},{"n":"Coagulo","c":2800000.0,"f":882992.0,"r":0.0,"m":"0.30x"},{"n":"Angiocrine","c":2500000.0,"f":5697.0,"r":0.0,"m":null}],"Good Growth III":[{"n":"Nala Membranes","c":900000.0,"f":900000.0,"r":0.0,"m":"1.00x"},{"n":"AOA","c":3299999.0,"f":3412057.0,"r":0.0,"m":"1.00x"},{"n":"Relief Cardiovascular","c":2500000.0,"f":2500000.0,"r":0.0,"m":"1.00x"},{"n":"Spiro Robotics","c":754110.0,"f":999999.0,"r":0.0,"m":"1.30x"},{"n":"Hoofprint Biome","c":1500000.0,"f":1500000.0,"r":0.0,"m":"1.00x"}],"True Wealth II":[{"n":"Aeromutable Corp.","c":699999.0,"f":699999.0,"r":0.0,"m":"1.00x"},{"n":"De Oro Devices","c":1000000.0,"f":351775.0,"r":0.0,"m":"0.40x"},{"n":"Fort Health","c":1600000.0,"f":1350000.0,"r":0.0,"m":"0.80x"},{"n":"Kloopify","c":1000000.0,"f":1000000.0,"r":0.0,"m":"1.00x"},{"n":"Partum Health","c":1000000.0,"f":1227794.0,"r":0.0,"m":"1.20x"},{"n":"Refiberd","c":1127192.0,"f":1467512.0,"r":0.0,"m":"1.30x"},{"n":"RubyWell","c":1000000.0,"f":1000000.0,"r":0.0,"m":"1.00x"}],"Ankona Capital I":[{"n":"Canopy Tax","c":7030124.0,"f":19528249.0,"r":0.0,"m":"2.80x"},{"n":"Cordial Experience","c":8250003.0,"f":16693571.0,"r":0.0,"m":"2.00x"},{"n":"GoSite","c":6539117.0,"f":0.0,"r":0.0,"m":null},{"n":"Home Service Champ","c":157950.0,"f":429063.0,"r":0.0,"m":"2.70x"},{"n":"Lawmatics","c":5999997.0,"f":12653165.0,"r":0.0,"m":"2.10x"},{"n":"Negotiatus Corp.","c":3000000.0,"f":3426425.0,"r":0.0,"m":"1.10x"},{"n":"PropelPLM","c":7499999.0,"f":7499999.0,"r":0.0,"m":"1.00x"},{"n":"SOCi","c":8673183.0,"f":24583184.0,"r":0.0,"m":"2.80x"},{"n":"VideoAmp","c":10711875.0,"f":22249831.0,"r":0.0,"m":"2.10x"}],"Silver Oak II":[{"n":"Hero DVO","c":18796855.0,"f":7781316.0,"r":0.0,"m":"0.41x"},{"n":"PLA","c":31749867.0,"f":101000000.0,"r":0.0,"m":"3.18x"},{"n":"Direct Travel","c":17482309.0,"f":0.0,"r":86682587.0,"m":"4.96x"},{"n":"Tranzonic Companies","c":18287364.0,"f":0.0,"r":70388378.0,"m":"3.85x"},{"n":"iSystems","c":15664609.0,"f":0.0,"r":24512266.0,"m":"1.56x"},{"n":"CLC Lodging","c":9125000.0,"f":0.0,"r":55217956.0,"m":"6.05x"},{"n":"PRN (Physician Recommended Nutriceuticals)","c":20703089.0,"f":0.0,"r":120198125.0,"m":"5.81x"},{"n":"BBG (BBSI)","c":15000000.0,"f":0.0,"r":54648361.0,"m":"3.64x"},{"n":"CCS (Correct Care Solutions)","c":20250000.0,"f":0.0,"r":174206888.0,"m":"8.60x"},{"n":"Vasa Fitness","c":13629472.0,"f":0.0,"r":118957994.0,"m":"8.73x"}],"Related OZ Fund II":[{"n":"Apex Marathon Village","c":31776823.0,"f":34350134.0,"r":0.0,"m":"1.10x"},{"n":"Huguenot Phase II","c":51408051.0,"f":58565677.0,"r":0.0,"m":"1.10x"},{"n":"Infinity Park","c":41186438.0,"f":48348609.0,"r":0.0,"m":"1.20x"},{"n":"Dix Park","c":62020153.0,"f":67238632.0,"r":0.0,"m":"1.10x"},{"n":"Residences at Bolivar","c":24005225.0,"f":28860888.0,"r":0.0,"m":"1.20x"}],"Related OZ Fund III":[{"n":"300 Nevins","c":24925000.0,"f":28826060.0,"r":0.0,"m":null},{"n":"Pickle & Hide","c":15000000.0,"f":15356213.0,"r":0.0,"m":null},{"n":"4101 Greensboro Street","c":8000000.0,"f":null,"r":0.0,"m":null}],"RanchHarbor":[{"n":"Signal Hill Industrial","c":3100000.0,"f":null,"r":0.0,"m":"2.10x"},{"n":"The Coronado","c":6200000.0,"f":null,"r":null,"m":"2.70x"},{"n":"Curtis Junction","c":23250000.0,"f":null,"r":0.0,"m":null},{"n":"ABQ 79 Portfolio","c":7000000.0,"f":0.0,"r":14000000.0,"m":"2.30x"}],"RanchHarbor Fund 1":[{"n":"San Dimas","c":null,"f":null,"r":0.0,"m":null},{"n":"The Duval at Midtown","c":null,"f":null,"r":0.0,"m":null}],"LPP (Laguna Point)":[{"n":"Coastal Bay Apartments","c":75500000.0,"f":null,"r":0.0,"m":null},{"n":"Grove at Millenia","c":19125000.0,"f":null,"r":0.0,"m":null},{"n":"Harmon at 370","c":null,"f":null,"r":0.0,"m":null}],"Three Pillar Fund 1":[{"n":"Cameron Crossing (The Silos MHC)","c":null,"f":0.0,"r":0.0,"m":null},{"n":"Rustic Ridge MHP","c":5830987.0,"f":null,"r":0.0,"m":null},{"n":"Edgewater Estates","c":2606722.0,"f":null,"r":0.0,"m":null},{"n":"Fairplay MHP","c":8307476.0,"f":null,"r":0.0,"m":null},{"n":"RV Retreat","c":7464252.0,"f":null,"r":0.0,"m":null},{"n":"Lafayette RV Community","c":2466440.0,"f":null,"r":0.0,"m":null},{"n":"Tallahassee Oakwoods MHP","c":2498477.0,"f":null,"r":0.0,"m":null},{"n":"Greeley RV Park","c":2207214.0,"f":null,"r":0.0,"m":null},{"n":"Country Chalet / Sun Tree Hollow MHP","c":11570442.0,"f":null,"r":0.0,"m":null},{"n":"Bozeman MHC","c":null,"f":0.0,"r":null,"m":null},{"n":"Lana Lane MHC","c":null,"f":0.0,"r":null,"m":null},{"n":"Evergreen MHC","c":null,"f":0.0,"r":null,"m":null}],"OCIP":[{"n":"NEC Fund VI, L.P.","c":2000000.0,"f":1900000.0,"r":0.0,"m":"1.00x"},{"n":"OC Ocean Assets 1, LLC","c":200000.0,"f":200000.0,"r":0.0,"m":"1.00x"}],"OCIP AccelCo 1":[{"n":"Overlay Accelergen Finco, LLC","c":8800000.0,"f":9600000.0,"r":0.0,"m":"1.10x"}],"Perennial Fund I":[{"n":"Bidii Baby Foods, LLC","c":490000.0,"f":null,"r":0.0,"m":null}],"Essentia Fund 4":[{"n":"10 Federal Self Storage Portfolio","c":null,"f":null,"r":0.0,"m":null}],"Stargen IX":[{"n":"insightsoftware","c":298200000.0,"f":988200000.0,"r":578700000.0,"m":"5.25x"},{"n":"Advarra","c":503500000.0,"f":2644600000.0,"r":2180000000.0,"m":"9.58x"},{"n":"Mercer Advisors","c":201600000.0,"f":917800000.0,"r":403200000.0,"m":"6.55x"},{"n":"Prometheus Group","c":372100000.0,"f":1990700000.0,"r":1213700000.0,"m":"8.61x"},{"n":"Clarience Technologies","c":462500000.0,"f":1979900000.0,"r":1319700000.0,"m":"7.13x"},{"n":"OEConnection","c":427300000.0,"f":1680800000.0,"r":1360500000.0,"m":"7.12x"},{"n":"Amwins Group","c":266500000.0,"f":956400000.0,"r":343700000.0,"m":"4.88x"},{"n":"MASA","c":65800000.0,"f":298000000.0,"r":66000000.0,"m":"5.53x"},{"n":"Obsidian","c":106800000.0,"f":190000000.0,"r":1500000.0,"m":"1.79x"},{"n":"Sonny's Enterprises","c":367700000.0,"f":1176400000.0,"r":211400000.0,"m":"3.77x"},{"n":"Orion Advisor Solutions","c":405200000.0,"f":743000000.0,"r":0.0,"m":"1.83x"},{"n":"Cyncly","c":411300000.0,"f":842400000.0,"r":0.0,"m":"2.05x"},{"n":"mSupply","c":682800000.0,"f":418500000.0,"r":0.0,"m":"0.61x"},{"n":"Vector Solutions","c":440500000.0,"f":562200000.0,"r":0.0,"m":"1.28x"},{"n":"AMBA","c":216900000.0,"f":430400000.0,"r":0.0,"m":"1.98x"},{"n":"First Eagle","c":300000000.0,"f":364300000.0,"r":0.0,"m":"1.21x"}],"Stargen VI Consol.":[{"n":"eResearch Technologies","c":86100000.0,"f":0.0,"r":693100000.0,"m":"8.05x"},{"n":"ConstructConnect","c":46200000.0,"f":0.0,"r":195200000.0,"m":"4.23x"},{"n":"AssetMark/Artivest","c":58000000.0,"f":0.0,"r":143600000.0,"m":"2.48x"},{"n":"Acrisure","c":30600000.0,"f":0.0,"r":334100000.0,"m":"10.92x"},{"n":"Tecomet","c":37300000.0,"f":0.0,"r":100200000.0,"m":"2.69x"},{"n":"Boyd Corporation","c":119600000.0,"f":0.0,"r":653400000.0,"m":"5.46x"},{"n":"Palomar","c":19300000.0,"f":0.0,"r":199600000.0,"m":"10.34x"},{"n":"Mercer","c":91800000.0,"f":0.0,"r":303100000.0,"m":"3.30x"},{"n":"Pretium Packaging","c":89900000.0,"f":0.0,"r":186900000.0,"m":"2.08x"},{"n":"Strategic Insight","c":136000000.0,"f":0.0,"r":322600000.0,"m":"2.37x"},{"n":"AWL (All Web Leads)","c":126100000.0,"f":0.0,"r":100000.0,"m":null},{"n":"Telestream","c":85800000.0,"f":0.0,"r":0.0,"m":null}],"GCP V":[{"n":"Confie Seguros","c":62800000.0,"f":0.0,"r":310800000.0,"m":"4.95x"},{"n":"Voice Construction Ltd.","c":85800000.0,"f":0.0,"r":300000.0,"m":null},{"n":"PRA International","c":276200000.0,"f":0.0,"r":621300000.0,"m":"2.25x"},{"n":"MidCap Financial","c":57200000.0,"f":0.0,"r":140600000.0,"m":"2.46x"},{"n":"TravelClick","c":132300000.0,"f":0.0,"r":512300000.0,"m":"3.87x"},{"n":"Evolution1","c":135400000.0,"f":0.0,"r":338200000.0,"m":"2.50x"},{"n":"Insurity","c":48600000.0,"f":0.0,"r":329000000.0,"m":"6.77x"},{"n":"Univita Health","c":149000000.0,"f":0.0,"r":-53600000.0,"m":"-0.36x"},{"n":"Netsmart Technologies","c":121500000.0,"f":0.0,"r":536500000.0,"m":"4.42x"},{"n":"AssetMark/Artivest","c":38600000.0,"f":0.0,"r":95700000.0,"m":"2.48x"},{"n":"Acrisure","c":20400000.0,"f":0.0,"r":222700000.0,"m":"10.92x"},{"n":"Tecomet","c":86900000.0,"f":0.0,"r":233700000.0,"m":"2.69x"},{"n":"Financial Horizons Group","c":80700000.0,"f":0.0,"r":143600000.0,"m":"1.78x"},{"n":"MW Industries","c":108700000.0,"f":0.0,"r":277100000.0,"m":"2.55x"},{"n":"Palomar","c":45100000.0,"f":0.0,"r":465900000.0,"m":"10.33x"},{"n":"Innovative Aftermarket Systems","c":56100000.0,"f":0.0,"r":296600000.0,"m":"5.29x"}],"OV3 (Okapi)":[{"n":"ATM.com","c":799000.0,"f":109000.0,"r":0.0,"m":"0.40x"},{"n":"ButterflyMX Holdings","c":94869.0,"f":349287.0,"r":0.0,"m":"3.70x"},{"n":"Daasity","c":1435838.0,"f":2434801.0,"r":0.0,"m":"1.70x"},{"n":"dRisk","c":261694.0,"f":450000.0,"r":349000.0,"m":"0.40x"},{"n":"Influence Apps","c":787734.0,"f":450000.0,"r":0.0,"m":"0.60x"},{"n":"Nimble for Good PBC","c":982942.0,"f":10782690.0,"r":0.0,"m":"11.40x"},{"n":"CLI Studios","c":1530000.0,"f":1728000.0,"r":1590000.0,"m":"1.10x"},{"n":"Slingshot Aerospace","c":1379999.0,"f":5029770.0,"r":0.0,"m":"3.60x"},{"n":"Specright","c":3206397.0,"f":11747849.0,"r":0.0,"m":"3.70x"},{"n":"Trellis Research","c":1550000.0,"f":7435322.0,"r":0.0,"m":"4.80x"},{"n":"TrackStreet","c":2454009.0,"f":5741767.0,"r":0.0,"m":"2.40x"},{"n":"Ubiq Security","c":1499977.0,"f":686832.0,"r":0.0,"m":"0.50x"},{"n":"WhiteFox Defense Technologies","c":2329995.0,"f":2982238.0,"r":0.0,"m":"1.30x"},{"n":"CloudKeyz","c":null,"f":1865000.0,"r":88000.0,"m":"1.70x"},{"n":"TemplarBit","c":227000.0,"f":0.0,"r":0.0,"m":null},{"n":"Jurny","c":2595000.0,"f":0.0,"r":0.0,"m":null},{"n":"Chromacode","c":692000.0,"f":0.0,"r":0.0,"m":null},{"n":"Expanse 3D","c":250000.0,"f":0.0,"r":0.0,"m":null},{"n":"SmartCSM","c":619000.0,"f":0.0,"r":0.0,"m":null}],"BVIP Fund VIII":[{"n":"EdTech Holdings","c":37900000.0,"f":36200000.0,"r":0.0,"m":"0.96x"},{"n":"geoLOGIC Systems","c":72000000.0,"f":98000000.0,"r":34800000.0,"m":"1.84x"},{"n":"INetU Holdings","c":28500000.0,"f":0.0,"r":76251927.0,"m":"2.68x"},{"n":"ECRM Holdings","c":20900000.0,"f":0.0,"r":178861266.0,"m":"8.56x"},{"n":"TriCore Solutions Holdings","c":35711221.0,"f":0.0,"r":126937255.0,"m":"3.55x"},{"n":"REAN Cloud","c":18537861.0,"f":0.0,"r":40818006.0,"m":"2.20x"},{"n":"reInvention","c":28850536.0,"f":0.0,"r":59084798.0,"m":"2.05x"},{"n":"Plasco ID Holdings","c":36032816.0,"f":0.0,"r":67265511.0,"m":"1.87x"},{"n":"Right Networks Holdings","c":31507522.0,"f":0.0,"r":322214191.0,"m":"10.23x"},{"n":"Stinson Holdings","c":48035750.0,"f":0.0,"r":62262549.0,"m":"1.30x"},{"n":"C-4 Analytics","c":45900000.0,"f":0.0,"r":110362590.0,"m":"2.40x"}],"Three Pillar Fund 2":[{"n":"Meadowlark MHC","c":4545865.0,"f":null,"r":0.0,"m":null},{"n":"Alosta MHP","c":11071090.0,"f":null,"r":0.0,"m":null},{"n":"Dotsero MHC","c":6530041.0,"f":null,"r":0.0,"m":null},{"n":"Greeley RV Park","c":11570442.0,"f":null,"r":0.0,"m":null},{"n":"Sandell Mobile Home Park","c":5950000.0,"f":null,"r":0.0,"m":null},{"n":"Continental MHP","c":5205739.0,"f":null,"r":0.0,"m":null},{"n":"Shadow Hills RV Park","c":8278318.0,"f":null,"r":0.0,"m":null},{"n":"Brookings RV Park","c":1792821.0,"f":null,"r":0.0,"m":null},{"n":"Monte Vista Mobile Home Park","c":2133000.0,"f":null,"r":0.0,"m":null},{"n":"Taft MHP","c":2863988.0,"f":null,"r":0.0,"m":null},{"n":"Purple Sage","c":3680132.0,"f":null,"r":0.0,"m":null}],"Three Pillar Directs":[{"n":"Rebar-OZ","c":150000.0,"f":150000.0,"r":0.0,"m":"1.00x"},{"n":"Genoble Ridge-OZ","c":100000.0,"f":100000.0,"r":0.0,"m":"1.00x"},{"n":"Summerville Hayes MHC","c":200000.0,"f":200000.0,"r":0.0,"m":"1.00x"},{"n":"Blue Springs MHC","c":62622.0,"f":62622.0,"r":0.0,"m":"1.00x"},{"n":"Isaiah MHC","c":null,"f":null,"r":150000.0,"m":null},{"n":"Emerald Riverstone MHC","c":50000.0,"f":14889.0,"r":78507.0,"m":"0.70x"}],"Ankona Capital II":[{"n":"ABXR Labs","c":1880151.0,"f":1880151.0,"r":0.0,"m":"1.00x"},{"n":"Alleva Corp.","c":6308007.0,"f":12534328.0,"r":0.0,"m":"2.00x"},{"n":"Canopy Tax","c":6141821.0,"f":6655533.0,"r":0.0,"m":"1.10x"},{"n":"Orca AI","c":4386932.0,"f":7662195.0,"r":0.0,"m":"1.80x"},{"n":"RegScale","c":5013733.0,"f":5013733.0,"r":0.0,"m":"1.00x"},{"n":"Rivet Health","c":3133584.0,"f":3133584.0,"r":0.0,"m":"1.00x"},{"n":"Slingshot Aerospace","c":3133586.0,"f":3133586.0,"r":0.0,"m":"1.00x"},{"n":"Smartly","c":6277068.0,"f":9951706.0,"r":0.0,"m":"1.60x"},{"n":"VideoAmp","c":5013740.0,"f":6229400.0,"r":0.0,"m":"1.20x"},{"n":"Walla Software","c":4073661.0,"f":4857054.0,"r":0.0,"m":"1.20x"}],"Astia Venture":[{"n":"AOA Dx","c":2000002.0,"f":2024659.0,"r":0.0,"m":null},{"n":"Aralez Bio","c":2249999.0,"f":2249999.0,"r":0.0,"m":null},{"n":"Catch+Release","c":1875000.0,"f":0.0,"r":0.0,"m":null},{"n":"CNote","c":1119451.0,"f":0.0,"r":0.0,"m":null},{"n":"Collate","c":140000.0,"f":140000.0,"r":0.0,"m":null},{"n":"Ellevest","c":1499996.0,"f":749998.0,"r":0.0,"m":"0.50x"},{"n":"Full Harvest","c":2171499.0,"f":2232906.0,"r":0.0,"m":null},{"n":"Goalsetter","c":1499999.0,"f":749999.0,"r":0.0,"m":"0.50x"},{"n":"Mae Health","c":1000000.0,"f":null,"r":0.0,"m":null},{"n":"Pallet","c":2000000.0,"f":0.0,"r":0.0,"m":null},{"n":"Repurpose","c":1250000.0,"f":null,"r":0.0,"m":null},{"n":"Candesant","c":2561908.0,"f":0.0,"r":0.0,"m":null}],"BV RN Continuation":[{"n":"Rightworks","c":95400000.0,"f":247400000.0,"r":6100000.0,"m":"2.66x"}],"BVLP VII":[{"n":"WIRB Group Holdings","c":99604169.0,"f":148436726.0,"r":0.0,"m":"1.49x"},{"n":"Butterfield Fulcrum Group","c":24670839.0,"f":64037388.0,"r":0.0,"m":"2.60x"},{"n":"SJI Holdings","c":25000000.0,"f":54730408.0,"r":0.0,"m":"2.19x"},{"n":"Oakstone Publishing","c":40446909.0,"f":14256784.0,"r":0.0,"m":"0.35x"},{"n":"HomePages Holdings","c":14650000.0,"f":5328721.0,"r":0.0,"m":"0.36x"},{"n":"en-Touch Systems","c":35758466.0,"f":55045845.0,"r":0.0,"m":"1.54x"},{"n":"ITM TwentyFirst","c":19971121.0,"f":59430409.0,"r":0.0,"m":"2.98x"},{"n":"Health Information Designs","c":20336426.0,"f":36970013.0,"r":0.0,"m":"1.82x"},{"n":"Petty Holdings","c":42288900.0,"f":12977561.0,"r":0.0,"m":"0.31x"},{"n":"DTT Surveillance","c":56017150.0,"f":61111563.0,"r":0.0,"m":"1.09x"},{"n":"The Competency Alliance","c":42645489.0,"f":0.0,"r":26942728.0,"m":"0.63x"}],"GGC ICF II":[{"n":"Nala Membranes","c":600000.0,"f":600000.0,"r":0.0,"m":"1.00x"},{"n":"Ateios","c":100000.0,"f":100000.0,"r":0.0,"m":"1.00x"},{"n":"Lemurian Labs","c":375000.0,"f":1158058.0,"r":0.0,"m":"3.10x"},{"n":"Pleural Dynamics","c":50000.0,"f":61721.0,"r":0.0,"m":"1.20x"},{"n":"Coral Innovations","c":700000.0,"f":1905791.0,"r":0.0,"m":"2.70x"},{"n":"Cambridge Terahertz","c":1000000.0,"f":2635661.0,"r":0.0,"m":"2.60x"},{"n":"AOA","c":1000000.0,"f":1000000.0,"r":0.0,"m":"1.00x"},{"n":"NextPower360","c":500000.0,"f":500000.0,"r":0.0,"m":"1.00x"},{"n":"Encora","c":800000.0,"f":1388962.0,"r":0.0,"m":"1.70x"},{"n":"GoPowerEV","c":539999.0,"f":939394.0,"r":0.0,"m":"1.70x"},{"n":"Reflection Analytics","c":500000.0,"f":500000.0,"r":0.0,"m":"1.00x"},{"n":"Spectrohm","c":499996.0,"f":499996.0,"r":0.0,"m":"1.00x"},{"n":"Eden Geopower","c":1050004.0,"f":1246317.0,"r":0.0,"m":"1.20x"},{"n":"Piction Health","c":100000.0,"f":100000.0,"r":0.0,"m":"1.00x"},{"n":"Aralez","c":150000.0,"f":157110.0,"r":0.0,"m":"1.00x"},{"n":"Tevard","c":299999.0,"f":337502.0,"r":0.0,"m":"1.10x"},{"n":"Fermata","c":50000.0,"f":50000.0,"r":0.0,"m":"1.00x"},{"n":"AdipoPharma","c":303347.0,"f":314461.0,"r":0.0,"m":"1.00x"},{"n":"Spiro Robotics","c":299999.0,"f":247135.0,"r":0.0,"m":"0.80x"},{"n":"Robigo","c":99998.0,"f":99998.0,"r":0.0,"m":"1.00x"},{"n":"Hoofprint Biome","c":500000.0,"f":1223314.0,"r":0.0,"m":"2.40x"},{"n":"Radical Catalyst","c":320000.0,"f":386009.0,"r":0.0,"m":"1.20x"},{"n":"Found Energy","c":250004.0,"f":250004.0,"r":0.0,"m":"1.00x"},{"n":"Impact Biosystems","c":250000.0,"f":0.0,"r":0.0,"m":null}],"OV5":[{"n":"Aline Technologies","c":250000.0,"f":250000.0,"r":0.0,"m":"1.00x"},{"n":"MagicDoor","c":699992.0,"f":769930.0,"r":0.0,"m":"1.10x"},{"n":"FeltSense Holdings","c":250000.0,"f":250000.0,"r":0.0,"m":"1.00x"},{"n":"IP Author","c":500000.0,"f":500000.0,"r":0.0,"m":"1.00x"},{"n":"Clearspace Technologies","c":500000.0,"f":500000.0,"r":0.0,"m":"1.00x"}],"Portfolia Active Aging":[{"n":"Apollo Neuroscience","c":826193.0,"f":578336.0,"r":0.0,"m":"0.70x"},{"n":"Everly Health","c":300000.0,"f":862192.0,"r":0.0,"m":"2.90x"},{"n":"Maven Clinic","c":499999.0,"f":1777391.0,"r":0.0,"m":"3.60x"},{"n":"Nalu Bio","c":500000.0,"f":728814.0,"r":0.0,"m":"1.50x"},{"n":"One Digital Trust","c":499999.0,"f":499999.0,"r":0.0,"m":"1.00x"},{"n":"Siren Care","c":499997.0,"f":23114.0,"r":0.0,"m":null},{"n":"Wellth","c":250000.0,"f":390272.0,"r":0.0,"m":"1.60x"},{"n":"Xandar Kardian","c":1000020.0,"f":2017973.0,"r":0.0,"m":"2.00x"}],"Portfolia Rising America":[{"n":"4D Healthware","c":400000.0,"f":400000.0,"r":0.0,"m":"1.00x"},{"n":"Canela Media","c":375776.0,"f":8956029.0,"r":0.0,"m":"23.80x"},{"n":"Ceek","c":347000.0,"f":347000.0,"r":0.0,"m":"1.00x"},{"n":"Encantos Media Studios","c":200631.0,"f":360686.0,"r":0.0,"m":"1.80x"},{"n":"Health Hero","c":200000.0,"f":200000.0,"r":0.0,"m":"1.00x"},{"n":"Innovare","c":240000.0,"f":360000.0,"r":0.0,"m":"1.50x"},{"n":"Madison Reed","c":749996.0,"f":800961.0,"r":0.0,"m":"1.10x"},{"n":"Maven Clinic Co.","c":349999.0,"f":1243666.0,"r":0.0,"m":"3.60x"},{"n":"Mobility Capital Finance","c":332125.0,"f":597160.0,"r":0.0,"m":"1.80x"},{"n":"Students of Wealth","c":99998.0,"f":296206.0,"r":0.0,"m":"3.00x"},{"n":"SUMA Wealth","c":100000.0,"f":333346.0,"r":0.0,"m":"3.30x"},{"n":"Zero Point Five Therapeutics","c":450000.0,"f":820828.0,"r":0.0,"m":"1.80x"}],"Argosy RE OZ I":[{"n":"Morrison Yard Apartments","c":10000635.0,"f":15983196.0,"r":0.0,"m":"2.50x"},{"n":"LUNA","c":8317283.0,"f":5951996.0,"r":952699.0,"m":"1.20x"},{"n":"The Annex of Bozeman","c":4037494.0,"f":5735622.0,"r":809405.0,"m":"2.40x"},{"n":"Rise on Meridian","c":17257739.0,"f":27937636.0,"r":0.0,"m":"2.30x"},{"n":"Commodore","c":18972933.0,"f":21708023.0,"r":2311013.0,"m":"1.70x"},{"n":"Casa Siena","c":16424554.0,"f":17986358.0,"r":0.0,"m":"1.60x"},{"n":"The Hunter","c":26959911.0,"f":24222321.0,"r":364.0,"m":"1.20x"},{"n":"3800-3850 Blake","c":5793656.0,"f":5793656.0,"r":210.0,"m":"1.40x"},{"n":"COYA Apartments","c":27344638.0,"f":34440309.0,"r":0.0,"m":"2.20x"},{"n":"Del Via Apartments","c":13082033.0,"f":13385962.0,"r":0.0,"m":"1.90x"},{"n":"Bartley Lofts","c":11868488.0,"f":14150459.0,"r":0.0,"m":"3.40x"},{"n":"Towns on Lone Tree","c":7000000.0,"f":6033848.0,"r":0.0,"m":"1.00x"},{"n":"Sablewood Towns","c":17922628.0,"f":16913357.0,"r":281024.0,"m":"1.50x"},{"n":"theYARD","c":19788359.0,"f":13593262.0,"r":0.0,"m":"1.70x"},{"n":"Victoria Row","c":14385618.0,"f":13696411.0,"r":0.0,"m":"1.90x"},{"n":"Senna House Scottsdale","c":8805580.0,"f":16723134.0,"r":3898591.0,"m":"3.30x"},{"n":"Hampton Inn & Suites Maui","c":18632389.0,"f":21895587.0,"r":0.0,"m":"2.20x"},{"n":"Outbound Yosemite","c":11235238.0,"f":12008881.0,"r":0.0,"m":"3.00x"},{"n":"660 J Street","c":16411195.0,"f":11975852.0,"r":163185.0,"m":"1.00x"}],"Argosy RE OZ II":[{"n":"Peer on 7th","c":17154000.0,"f":14060698.0,"r":19348.0,"m":"1.60x"},{"n":"Del Via Apartments","c":6443389.0,"f":6593086.0,"r":0.0,"m":"1.90x"},{"n":"Bartley Lofts","c":5845673.0,"f":6969629.0,"r":0.0,"m":"3.40x"},{"n":"Velocity P7","c":1250000.0,"f":1250000.0,"r":0.0,"m":"1.00x"},{"n":"Victoria Row","c":7085454.0,"f":6745993.0,"r":0.0,"m":"1.90x"},{"n":"Outbound Yosemite","c":5533774.0,"f":5914822.0,"r":0.0,"m":"3.00x"},{"n":"WestEnd Logistics","c":8608771.0,"f":12398581.0,"r":640575.0,"m":"2.70x"},{"n":"Waltham Industrial","c":12519775.0,"f":12948546.0,"r":0.0,"m":"3.20x"},{"n":"Gilbert South Anchor","c":14000000.0,"f":0.0,"r":14550921.0,"m":"1.00x"}],"PCCP Equity VIII":[{"n":"5901 Century","c":19025000.0,"f":0.0,"r":2636000.0,"m":"0.20x"},{"n":"Bainbridge St. Johns Town Center","c":17658000.0,"f":0.0,"r":40151000.0,"m":"2.30x"},{"n":"Broadstone Sienna Plantation","c":16626000.0,"f":0.0,"r":31897000.0,"m":"1.90x"},{"n":"Broadstone Timbergrove","c":19471000.0,"f":0.0,"r":29596000.0,"m":"1.50x"},{"n":"Cumberland Center II","c":23221000.0,"f":0.0,"r":2461000.0,"m":"0.10x"},{"n":"District at Chandler","c":31747000.0,"f":0.0,"r":75859000.0,"m":"2.40x"},{"n":"Effingham Portside Industrial","c":57597000.0,"f":0.0,"r":86711000.0,"m":"1.50x"},{"n":"Hanover Tysons","c":27852000.0,"f":0.0,"r":47047000.0,"m":"1.70x"},{"n":"Hodgkins Industrial","c":10660000.0,"f":0.0,"r":16136000.0,"m":"1.50x"},{"n":"Hopewell Phoenix","c":13093000.0,"f":0.0,"r":27733000.0,"m":"2.10x"},{"n":"Kearny Torrance","c":29278000.0,"f":0.0,"r":72354000.0,"m":"2.50x"},{"n":"Prose Champions","c":15921000.0,"f":0.0,"r":26911000.0,"m":"1.70x"},{"n":"Rickenbacker West II & III","c":10788000.0,"f":0.0,"r":33118000.0,"m":"3.10x"},{"n":"Rockefeller Lehigh Valley","c":46003000.0,"f":0.0,"r":97237000.0,"m":"2.10x"},{"n":"SeaTac Office Center","c":24468000.0,"f":0.0,"r":53352000.0,"m":"2.20x"},{"n":"SLS Portfolio","c":15156000.0,"f":0.0,"r":39852000.0,"m":"2.60x"},{"n":"Southlake HQ","c":31043000.0,"f":0.0,"r":39378000.0,"m":"1.30x"},{"n":"The Westerly","c":19990000.0,"f":0.0,"r":51651000.0,"m":"2.60x"},{"n":"135 W 29th","c":18742000.0,"f":6727000.0,"r":0.0,"m":"0.60x"},{"n":"Amberglen Business Center","c":24020000.0,"f":23665000.0,"r":0.0,"m":"1.30x"},{"n":"Bainbridge Avenues Walk","c":24695000.0,"f":36634000.0,"r":0.0,"m":"1.80x"},{"n":"Bainbridge Nona North","c":22284000.0,"f":30384000.0,"r":0.0,"m":"1.80x"},{"n":"Bayonne Logistics Center","c":56480000.0,"f":26191000.0,"r":0.0,"m":"0.40x"},{"n":"BeltLine & Boulevard","c":27608000.0,"f":35378000.0,"r":0.0,"m":"1.70x"},{"n":"Bloomsbury Industrial","c":2619000.0,"f":2619000.0,"r":0.0,"m":"2.00x"},{"n":"Cascade & Fountains at Morgan Falls","c":32428000.0,"f":74856000.0,"r":0.0,"m":"2.70x"},{"n":"Cascade Yard","c":24257000.0,"f":10584000.0,"r":0.0,"m":"1.00x"},{"n":"District at Windy Hill","c":22702000.0,"f":23440000.0,"r":0.0,"m":"1.40x"},{"n":"Douglasville Logistics","c":27766000.0,"f":51001000.0,"r":0.0,"m":"1.70x"},{"n":"Falls Church","c":52724000.0,"f":49555000.0,"r":0.0,"m":"1.60x"},{"n":"Palatine Industrial","c":20302000.0,"f":26298000.0,"r":0.0,"m":"1.50x"},{"n":"Park Point","c":26982000.0,"f":27270000.0,"r":0.0,"m":"1.90x"},{"n":"Resource Square","c":16564000.0,"f":6578000.0,"r":0.0,"m":"0.60x"},{"n":"Rockland LIP","c":26240000.0,"f":null,"r":0.0,"m":"2.00x"},{"n":"Rosemont Towson","c":76159000.0,"f":55980000.0,"r":0.0,"m":"1.00x"},{"n":"Southwest Corporate Campus","c":13225000.0,"f":35939000.0,"r":0.0,"m":"3.20x"},{"n":"Springs Portfolio","c":23595000.0,"f":44710000.0,"r":0.0,"m":"1.90x"},{"n":"Tri-State Industrial","c":41600000.0,"f":15664000.0,"r":0.0,"m":"1.30x"},{"n":"Valley Tech Centre","c":73652000.0,"f":17325000.0,"r":0.0,"m":null},{"n":"Westgate Shopping Center","c":24799000.0,"f":null,"r":0.0,"m":"0.90x"}],"IEQ - Bridge MF IV":[{"n":"Woodcreek Apartments","c":23992541.0,"f":11147416.0,"r":19507773.0,"m":"1.28x"},{"n":"Chapel Hill Apartments","c":78905459.0,"f":153138431.0,"r":29678412.0,"m":"2.32x"},{"n":"Grandstand Apartments","c":33106516.0,"f":38835734.0,"r":34344311.0,"m":"2.21x"},{"n":"Parkside at Town Center Apartments","c":15967688.0,"f":21017103.0,"r":4285527.0,"m":"1.58x"},{"n":"Windrift Apartments","c":17248577.0,"f":0.0,"r":38414800.0,"m":"2.23x"},{"n":"Sutton Place Apartments","c":8407636.0,"f":0.0,"r":23777544.0,"m":"2.83x"},{"n":"Array at South Mountain Apartments","c":48439049.0,"f":57156560.0,"r":51923092.0,"m":"2.25x"},{"n":"Cambria Apartments","c":11452178.0,"f":0.0,"r":30600625.0,"m":"2.67x"},{"n":"Helix Apartments","c":22157322.0,"f":27333896.0,"r":23114582.0,"m":"2.28x"},{"n":"Lore at South Mountain Apartments","c":18870538.0,"f":28046180.0,"r":13597651.0,"m":"2.21x"},{"n":"Reflections at the Lakes Apartments","c":16595119.0,"f":32523337.0,"r":24226710.0,"m":"3.42x"},{"n":"Grammercy Apartments","c":35799730.0,"f":51344654.0,"r":19631189.0,"m":"1.98x"},{"n":"Sunset 320 Apartments","c":24873108.0,"f":30877847.0,"r":16275984.0,"m":"1.90x"},{"n":"Chandler Ridge Apartments","c":21815945.0,"f":49055548.0,"r":22662818.0,"m":"3.29x"},{"n":"Vernola Marketplace Apartments","c":52273113.0,"f":95433066.0,"r":13032053.0,"m":"2.07x"},{"n":"Verona Park Apartments","c":17929860.0,"f":37973029.0,"r":7389463.0,"m":"2.53x"},{"n":"Lake Tivoli Apartments","c":25449502.0,"f":36301682.0,"r":8765302.0,"m":"1.77x"},{"n":"Liberty Creek Apartments","c":37459973.0,"f":46038118.0,"r":13795346.0,"m":"1.60x"},{"n":"Verraso Apartments","c":16807683.0,"f":38243206.0,"r":8057587.0,"m":"2.75x"},{"n":"Brookstone Apartments","c":9776457.0,"f":24574030.0,"r":5793709.0,"m":"3.11x"},{"n":"Dallas North Park Apartments","c":11446924.0,"f":23281203.0,"r":5649848.0,"m":"2.53x"},{"n":"Drawbridge Creek Apartments","c":10967773.0,"f":0.0,"r":28355461.0,"m":"2.59x"},{"n":"Edgewater at Sandy Springs Apartments","c":47837105.0,"f":55979085.0,"r":9762808.0,"m":"1.37x"},{"n":"Stoney Trace Apartments","c":19545572.0,"f":0.0,"r":35585508.0,"m":"1.82x"},{"n":"Carrollwood Station Apartments","c":11812766.0,"f":0.0,"r":28320548.0,"m":"2.40x"},{"n":"Park 2300 Apartments","c":14708318.0,"f":28755345.0,"r":5699404.0,"m":"2.34x"},{"n":"Bridges on Tropicana Apartments","c":20467054.0,"f":49192750.0,"r":12085035.0,"m":"2.99x"},{"n":"The Club at Tanasbourne Apartments","c":34897331.0,"f":0.0,"r":42637819.0,"m":"1.58x"},{"n":"The Terraces at Tanasbourne Apartments","c":37820347.0,"f":0.0,"r":39879579.0,"m":"1.41x"},{"n":"Cabana on 99th Apartments","c":14751036.0,"f":0.0,"r":45562226.0,"m":"3.09x"},{"n":"Fountains at Point West Apartments","c":38671603.0,"f":34210133.0,"r":11467778.0,"m":"1.18x"},{"n":"Bridges at Bayside Apartments","c":19656697.0,"f":34422660.0,"r":6731567.0,"m":"2.09x"},{"n":"Veranda at Westchase Apartments","c":40109751.0,"f":62409330.0,"r":8684970.0,"m":"1.77x"},{"n":"Seven Skies Apartments","c":24940212.0,"f":35481003.0,"r":0.0,"m":"1.42x"},{"n":"Harmony at Surprise Apartments","c":23367423.0,"f":33578398.0,"r":10095105.0,"m":"1.87x"},{"n":"Brightwood Forest Apartments","c":8719537.0,"f":10271957.0,"r":2989546.0,"m":"1.52x"},{"n":"Dale Forest Apartments","c":77933357.0,"f":107564701.0,"r":41661694.0,"m":"1.91x"},{"n":"Aspen Court Apartments","c":8813210.0,"f":8524920.0,"r":2152284.0,"m":"1.21x"},{"n":"Autumnwood Apartments","c":19222498.0,"f":21338542.0,"r":5623212.0,"m":"1.40x"},{"n":"Cobblestone Apartments","c":19260325.0,"f":21929491.0,"r":5442575.0,"m":"1.42x"},{"n":"Summit Ridge Apartments","c":13225485.0,"f":14777759.0,"r":3971630.0,"m":"1.42x"},{"n":"Equestrian Apartments","c":17473103.0,"f":0.0,"r":31964711.0,"m":"1.83x"},{"n":"Ridgeline Apartments","c":16228557.0,"f":21074134.0,"r":9128429.0,"m":"1.86x"},{"n":"Caribbean Breeze Apartments","c":30135659.0,"f":47639353.0,"r":11897143.0,"m":"1.98x"},{"n":"Waterford Place at Mt. Zion Apartments","c":31764670.0,"f":52298957.0,"r":8194886.0,"m":"1.90x"},{"n":"The Cove La Mesa Apartments","c":15036705.0,"f":23967607.0,"r":3104960.0,"m":"1.80x"},{"n":"Accent on Rainbow Apartments","c":28901652.0,"f":38238853.0,"r":6867761.0,"m":"1.56x"},{"n":"Accent on Sahara Apartments","c":22767807.0,"f":23419790.0,"r":13764625.0,"m":"1.63x"},{"n":"Ovation at Galatyn Park Apartments","c":24232681.0,"f":520128.0,"r":40456728.0,"m":"1.69x"},{"n":"Broadmoor Village Apartments","c":39591596.0,"f":32993524.0,"r":4151762.0,"m":"0.94x"},{"n":"Park West Apartments","c":24286896.0,"f":19784169.0,"r":3479372.0,"m":"0.96x"},{"n":"Rosehill Preserve Apartments","c":30470305.0,"f":23660289.0,"r":4773530.0,"m":"0.93x"},{"n":"Retreat at Crosstown Apartments","c":27622137.0,"f":41754539.0,"r":8623953.0,"m":"1.82x"},{"n":"Parc Roundtree Ranch Apartments","c":37666365.0,"f":19531441.0,"r":2723472.0,"m":"0.59x"}]};
+const COMPANIES = {"Kalos Fund 1":[{"n": "Boomerang Intelligence", "c": 4000000, "f": 4000000, "r": 0, "m": "1.00x"}, {"n": "ManifestEd", "c": 3562998, "f": 3562998, "r": 0, "m": "1.00x"}],"Angel":[{"n": "Longevity Holdings", "c": 1750000, "f": null, "r": null, "m": null},{"n": "MarginEdge", "c": 300000, "f": null, "r": null, "m": null},{"n": "Midas Education (TCA)", "c": 25000, "f": null, "r": null, "m": null},{"n": "Conservation Labs", "c": 75000, "f": null, "r": null, "m": null},{"n": "Blue Technology", "c": 75000, "f": null, "r": null, "m": null},{"n": "Cargosense", "c": 25000, "f": null, "r": null, "m": null},{"n": "AllVoices", "c": 50000, "f": null, "r": null, "m": null},{"n": "Trackstreet", "c": 86868, "f": null, "r": null, "m": null},{"n": "First Women's Bank", "c": 250000, "f": null, "r": null, "m": null},{"n": "Tallyfor", "c": 100000, "f": null, "r": null, "m": null},{"n": "White Leaf Provisions", "c": 210000, "f": null, "r": null, "m": null},{"n": "Meetcaregivers", "c": 15000, "f": null, "r": null, "m": null},{"n": "Ankona VideoAmp", "c": 121471, "f": null, "r": null, "m": null},{"n": "GGC Bounce", "c": 50000, "f": null, "r": null, "m": null},{"n": "GGC CoapTech", "c": 50000, "f": null, "r": null, "m": null},{"n": "TWV Refiberd", "c": 50000, "f": null, "r": null, "m": null},{"n": "FWV Tilt", "c": 50000, "f": null, "r": null, "m": null},{"n": "4P Foods", "c": 50000, "f": null, "r": null, "m": null},{"n": "Farmtrace", "c": 437500, "f": null, "r": null, "m": null},{"n": "Highland Materials", "c": 250000, "f": null, "r": null, "m": null},{"n": "Twentyeight Health", "c": 125000, "f": null, "r": null, "m": null}],"Stargen VII Consol.":[{"n":"ConnectiveRx","c":146300000.0,"f":347800000.0,"r":258500000.0,"m":"4.14x"},{"n":"Community Brands","c":180000000.0,"f":99000000.0,"r":383900000.0,"m":"2.68x"},{"n":"Ascensus","c":164100000.0,"f":172600000.0,"r":669200000.0,"m":"5.13x"},{"n":"Accruent","c":206600000.0,"f":0.0,"r":464300000.0,"m":"2.25x"},{"n":"Infinite Electronics","c":224300000.0,"f":0.0,"r":855700000.0,"m":"3.81x"},{"n":"Sphera","c":150800000.0,"f":0.0,"r":1046400000.0,"m":"6.94x"},{"n":"AMBA","c":82300000.0,"f":0.0,"r":412300000.0,"m":"5.01x"},{"n":"ECM Industries","c":146000000.0,"f":0.0,"r":655500000.0,"m":"4.49x"},{"n":"Alera Group","c":139600000.0,"f":0.0,"r":737600000.0,"m":"5.28x"},{"n":"Signant Health","c":250000000.0,"f":454800000.0,"r":12500000.0,"m":"1.87x"},{"n":"Stack Sports","c":280400000.0,"f":129600000.0,"r":1400000.0,"m":"0.47x"},{"n":"Enverus","c":43700000.0,"f":1100000.0,"r":150100000.0,"m":"3.46x"},{"n":"Cetera Financial","c":78800000.0,"f":0.0,"r":347700000.0,"m":"4.41x"}],"Stargen VIII Consol.":[{"n":"PDI","c":152900000.0,"f":343000000.0,"r":349500000.0,"m":"4.53x"},{"n":"Bullhorn","c":108500000.0,"f":139900000.0,"r":266000000.0,"m":"3.74x"},{"n":"ISS (isQFt)","c":291100000.0,"f":0.0,"r":991100000.0,"m":"3.40x"},{"n":"Enverus","c":361500000.0,"f":9200000.0,"r":1242700000.0,"m":"3.46x"},{"n":"TerrenePower","c":376500000.0,"f":185900000.0,"r":796600000.0,"m":"2.61x"},{"n":"Cetera Financial","c":361600000.0,"f":519800000.0,"r":1234000000.0,"m":"4.85x"},{"n":"2-10 Home Buyers Warranty","c":107600000.0,"f":2000000.0,"r":479600000.0,"m":"4.48x"},{"n":"Signant Health","c":390000000.0,"f":701800000.0,"r":19200000.0,"m":"1.85x"},{"n":"Apex Group","c":163500000.0,"f":1855000000.0,"r":733300000.0,"m":"15.83x"},{"n":"Tekni-Plex","c":345200000.0,"f":637800000.0,"r":0.0,"m":"1.85x"},{"n":"OTC Industrial","c":356500000.0,"f":840300000.0,"r":0.0,"m":"2.36x"},{"n":"ACA Group","c":100000000.0,"f":144800000.0,"r":144800000.0,"m":"2.90x"}],"Stargen X Consol.":[{"n":"Arrowhead Engineered Products","c":914800000.0,"f":162900000.0,"r":162900000.0,"m":"0.36x"},{"n":"ACA Group","c":732800000.0,"f":1046300000.0,"r":0.0,"m":"1.43x"},{"n":"Alera Group","c":904800000.0,"f":1417300000.0,"r":0.0,"m":"1.57x"},{"n":"Daxko","c":324500000.0,"f":566700000.0,"r":0.0,"m":"1.75x"},{"n":"Brook & Whittle","c":743500000.0,"f":260300000.0,"r":500000.0,"m":"0.35x"},{"n":"Procure Analytics","c":550100000.0,"f":711800000.0,"r":0.0,"m":"1.29x"},{"n":"Inside Real Estate","c":290800000.0,"f":297400000.0,"r":0.0,"m":"1.02x"},{"n":"Lightspeed","c":170900000.0,"f":173900000.0,"r":0.0,"m":"1.02x"},{"n":"Abracon","c":299500000.0,"f":0.0,"r":0.0,"m":null},{"n":"Cerity Partners","c":640900000.0,"f":2115400000.0,"r":0.0,"m":"3.30x"},{"n":"Apex Sanne","c":666000000.0,"f":714500000.0,"r":0.0,"m":"1.07x"},{"n":"Numerix","c":483100000.0,"f":960900000.0,"r":0.0,"m":"1.99x"},{"n":"AmeriLife","c":645100000.0,"f":1150200000.0,"r":28200000.0,"m":"1.83x"},{"n":"JSSI","c":616500000.0,"f":1132700000.0,"r":313900000.0,"m":"2.35x"},{"n":"Likewize","c":644100000.0,"f":669600000.0,"r":0.0,"m":"1.04x"},{"n":"SEER","c":449400000.0,"f":366600000.0,"r":0.0,"m":"0.82x"},{"n":"Cetera Financial","c":382200000.0,"f":545200000.0,"r":2900000.0,"m":"1.43x"}],"BVIP Fund IX":[{"n":"Consero Global Solutions","c":60000000.0,"f":197200000.0,"r":500000.0,"m":"3.29x"},{"n":"StraighterLine","c":109200000.0,"f":152100000.0,"r":0.0,"m":"1.39x"},{"n":"Veracross","c":89100000.0,"f":411500000.0,"r":38800000.0,"m":"5.05x"},{"n":"Frontline Managed Services","c":30135053.0,"f":0.0,"r":44596117.0,"m":"1.48x"},{"n":"EDCO Health Information Solutions","c":27596089.0,"f":0.0,"r":278970213.0,"m":"10.11x"},{"n":"Franco Signor","c":16956122.0,"f":0.0,"r":44596117.0,"m":"2.63x"},{"n":"CivicPlus","c":23806412.0,"f":0.0,"r":63075053.0,"m":"2.65x"},{"n":"Apps Associates / RafterOne","c":18651735.0,"f":0.0,"r":69659754.0,"m":"3.73x"},{"n":"RKD Group Holdings","c":38610181.0,"f":0.0,"r":175999846.0,"m":"4.56x"}],"OV Opp Fund I":[{"n":"FigureAI","c":2000000.0,"f":10600000.0,"r":0.0,"m":"5.30x"},{"n":"Specright","c":6900000.0,"f":12400000.0,"r":0.0,"m":"1.80x"},{"n":"Trellis Research","c":3300000.0,"f":4600000.0,"r":0.0,"m":"1.40x"},{"n":"Slingshot Aerospace","c":3000000.0,"f":4300000.0,"r":0.0,"m":"1.40x"},{"n":"Daasity","c":2400000.0,"f":2400000.0,"r":0.0,"m":"1.00x"},{"n":"ChargeZoom","c":1200000.0,"f":1200000.0,"r":0.0,"m":"1.00x"},{"n":"TrackStreet","c":600000.0,"f":900000.0,"r":0.0,"m":"1.50x"}],"OV IV (Okapi)":[{"n":"Network Perception","c":2171000.0,"f":5593000.0,"r":0.0,"m":"2.60x"},{"n":"ChargeZoom","c":2877000.0,"f":4452000.0,"r":0.0,"m":"1.50x"},{"n":"Occuspace","c":1900000.0,"f":2628000.0,"r":0.0,"m":"1.40x"},{"n":"WeGive","c":1105000.0,"f":1784000.0,"r":0.0,"m":"1.60x"},{"n":"Trnsact","c":700000.0,"f":1730000.0,"r":0.0,"m":"2.50x"},{"n":"PlanStreet","c":1000000.0,"f":1558000.0,"r":0.0,"m":"1.60x"},{"n":"StockApp","c":1500000.0,"f":1500000.0,"r":0.0,"m":"1.00x"},{"n":"LeadrPro","c":750000.0,"f":1125000.0,"r":0.0,"m":"1.50x"},{"n":"GoodHood","c":800000.0,"f":814000.0,"r":0.0,"m":"1.00x"},{"n":"KredosAI","c":794000.0,"f":802000.0,"r":0.0,"m":"1.00x"},{"n":"Candid Wholesale","c":550000.0,"f":550000.0,"r":0.0,"m":"1.00x"},{"n":"MAYU Water","c":500000.0,"f":500000.0,"r":0.0,"m":"1.00x"},{"n":"Paladin Cloud","c":2000000.0,"f":200000.0,"r":0.0,"m":"0.10x"},{"n":"Exponential Intelligence","c":150000.0,"f":150000.0,"r":0.0,"m":"1.00x"},{"n":"Fluid Power AI","c":500000.0,"f":100000.0,"r":0.0,"m":"0.20x"},{"n":"DepoDirect","c":2000000.0,"f":0.0,"r":0.0,"m":null},{"n":"Multiplayer","c":1500000.0,"f":0.0,"r":0.0,"m":null},{"n":"DeepCast","c":850000.0,"f":0.0,"r":0.0,"m":null},{"n":"NotiSphere","c":1350000.0,"f":0.0,"r":0.0,"m":null},{"n":"Violux","c":920000.0,"f":0.0,"r":0.0,"m":null}],"Firework Ventures":[{"n":"Braintrust (BTRST)","c":400000.0,"f":140602.0,"r":0.0,"m":"0.40x"},{"n":"Career Allies","c":6499998.0,"f":11500251.0,"r":0.0,"m":"1.80x"},{"n":"Clasp Group","c":9568306.0,"f":9831094.0,"r":0.0,"m":"1.00x"},{"n":"Degreed","c":10000000.0,"f":11321311.0,"r":0.0,"m":"1.10x"},{"n":"HeyMirza","c":5999999.0,"f":7172708.0,"r":0.0,"m":"1.20x"},{"n":"Hone Group","c":704225.0,"f":2133802.0,"r":0.0,"m":"3.00x"},{"n":"Ligilo","c":4786364.0,"f":10000000.0,"r":0.0,"m":"2.10x"},{"n":"Podium Education","c":4640994.0,"f":6160000.0,"r":0.0,"m":"1.30x"},{"n":"Transfr","c":206440.0,"f":2572284.0,"r":0.0,"m":"12.50x"}],"Regeneration.vc I":[{"n":"CleanO2 Carbon Capture Technologies","c":2290000.0,"f":2292069.0,"r":0.0,"m":"1.00x"},{"n":"Meridia Land B.V.","c":618716.0,"f":663030.0,"r":0.0,"m":"1.10x"},{"n":"Ruminant Biotech Corp","c":1870976.0,"f":2410354.0,"r":0.0,"m":"1.30x"},{"n":"SPVRKD Pte. Ltd.","c":351.0,"f":351.0,"r":0.0,"m":"1.00x"},{"n":"Pangaia Materials Science","c":1500052.0,"f":1500052.0,"r":0.0,"m":"1.00x"},{"n":"Colorifix","c":1500052.0,"f":1500052.0,"r":0.0,"m":"1.00x"},{"n":"Inheriting Earth","c":2959173.0,"f":3931675.0,"r":0.0,"m":"1.30x"},{"n":"Nature Coatings","c":2374518.0,"f":4008021.0,"r":0.0,"m":"1.70x"},{"n":"Tulou Community","c":2855581.0,"f":3399244.0,"r":0.0,"m":null}],"Full Cycle Climate":[{"n":"Synova","c":null,"f":null,"r":0.0,"m":null},{"n":"Evrnu","c":null,"f":null,"r":0.0,"m":null},{"n":"Burcell","c":null,"f":null,"r":0.0,"m":null},{"n":"InPipe Energy","c":null,"f":null,"r":0.0,"m":null}],"Good Growth II":[{"n": "Thiozen", "c": 670000, "f": 670000, "r": 0, "m": "1.00x"}, {"n": "Pryon", "c": 4999995, "f": 9849406, "r": 0, "m": "1.97x"}, {"n": "Ateios", "c": 500000, "f": 500000, "r": 0, "m": "1.00x"}, {"n": "Bounce Imaging", "c": 2749997, "f": 3249049, "r": 0, "m": "1.18x"}, {"n": "Avisi", "c": 838497, "f": 1059265, "r": 0, "m": "1.26x"}, {"n": "Pleural Dynamics", "c": 2894996, "f": 2987609, "r": 0, "m": "1.03x"}, {"n": "Boston Materials", "c": 3256181, "f": 3930810, "r": 0, "m": "1.21x"}, {"n": "Lemurian Labs", "c": 450000, "f": 1544913, "r": 0, "m": "3.43x"}, {"n": "Blue Ocean Gear", "c": 2050000, "f": 2239064, "r": 0, "m": "1.09x"}, {"n": "Orbit Fab", "c": 1499999, "f": 1661380, "r": 0, "m": "1.11x"}, {"n": "CoapTech", "c": 4000000, "f": 4198492, "r": 0, "m": "1.05x"}, {"n": "GoPowerEV", "c": 1799998, "f": 2014282, "r": 0, "m": "1.12x"}, {"n": "Fluree", "c": 1349983, "f": 1538828, "r": 0, "m": "1.14x"}, {"n": "Coagulo", "c": 2800000, "f": 882992, "r": 0, "m": "0.32x"}, {"n": "Unison", "c": 3506496, "f": 3506496, "r": 0, "m": "1.00x"}, {"n": "Swift Solar", "c": 1300000, "f": 1375004, "r": 0, "m": "1.06x"}, {"n": "Osteoboost (Bone Health)", "c": 400000, "f": 546455, "r": 0, "m": "1.37x"}, {"n": "Databento", "c": 2366247, "f": 3054380, "r": 0, "m": "1.29x"}, {"n": "Radia", "c": 6999908, "f": 10181813, "r": 0, "m": "1.45x"}, {"n": "Skyhawk Therapeutics", "c": 3599329, "f": 3599329, "r": 0, "m": "1.00x"}, {"n": "Base Operations", "c": 1249999, "f": 1449995, "r": 0, "m": "1.16x"}, {"n": "Angiocrine", "c": 2500000, "f": 5697, "r": 0, "m": "0.00x"}, {"n": "Liminal", "c": 3905845, "f": 5124730, "r": 0, "m": "1.31x"}, {"n": "Lindy Biosciences", "c": 749998, "f": 749998, "r": 0, "m": "1.00x"}, {"n": "Aralez", "c": 2624998, "f": 2692869, "r": 0, "m": "1.03x"}, {"n": "Leuko Labs", "c": 1499999, "f": 1499999, "r": 0, "m": "1.00x"}, {"n": "Tevard", "c": 3699996, "f": 4037528, "r": 0, "m": "1.09x"}, {"n": "Fermata", "c": 800000, "f": 800000, "r": 0, "m": "1.00x"}, {"n": "Eden Geopower", "c": 2499990, "f": 2623368, "r": 0, "m": "1.05x"}, {"n": "Spiro Robotics", "c": 1200000, "f": 988541, "r": 0, "m": "0.82x"}, {"n": "Robigo", "c": 899999, "f": 899999, "r": 0, "m": "1.00x"}, {"n": "Obsidio (Exited)", "c": 500000, "f": 0, "r": 3172089, "m": "6.34x"}, {"n": "Revive-Med (Written Down)", "c": 1500000, "f": 0, "r": 0, "m": "0.00x"}, {"n": "Trillbit (Written Down)", "c": 880000, "f": 0, "r": 0, "m": "0.00x"}],"Good Growth III":[{"n":"Nala Membranes","c":900000.0,"f":900000.0,"r":0.0,"m":"1.00x"},{"n":"AOA","c":3299999.0,"f":3412057.0,"r":0.0,"m":"1.00x"},{"n":"Relief Cardiovascular","c":2500000.0,"f":2500000.0,"r":0.0,"m":"1.00x"},{"n":"Spiro Robotics","c":754110.0,"f":999999.0,"r":0.0,"m":"1.30x"},{"n":"Hoofprint Biome","c":1500000.0,"f":1500000.0,"r":0.0,"m":"1.00x"}],"True Wealth II":[{"n":"Aeromutable Corp.","c":699999.0,"f":699999.0,"r":0.0,"m":"1.00x"},{"n":"De Oro Devices","c":1000000.0,"f":351775.0,"r":0.0,"m":"0.40x"},{"n":"Fort Health","c":1600000.0,"f":1350000.0,"r":0.0,"m":"0.80x"},{"n":"Kloopify","c":1000000.0,"f":1000000.0,"r":0.0,"m":"1.00x"},{"n":"Partum Health","c":1000000.0,"f":1227794.0,"r":0.0,"m":"1.20x"},{"n":"Refiberd","c":1127192.0,"f":1467512.0,"r":0.0,"m":"1.30x"},{"n":"RubyWell","c":1000000.0,"f":1000000.0,"r":0.0,"m":"1.00x"}],"Ankona Capital I":[{"n":"Canopy Tax","c":7030124.0,"f":19528249.0,"r":0.0,"m":"2.80x"},{"n":"Cordial Experience","c":8250003.0,"f":16693571.0,"r":0.0,"m":"2.00x"},{"n":"GoSite","c":6539117.0,"f":0.0,"r":0.0,"m":null},{"n":"Home Service Champ","c":157950.0,"f":429063.0,"r":0.0,"m":"2.70x"},{"n":"Lawmatics","c":5999997.0,"f":12653165.0,"r":0.0,"m":"2.10x"},{"n":"Negotiatus Corp.","c":3000000.0,"f":3426425.0,"r":0.0,"m":"1.10x"},{"n":"PropelPLM","c":7499999.0,"f":7499999.0,"r":0.0,"m":"1.00x"},{"n":"SOCi","c":8673183.0,"f":24583184.0,"r":0.0,"m":"2.80x"},{"n":"VideoAmp","c":10711875.0,"f":22249831.0,"r":0.0,"m":"2.10x"}],"Silver Oak II":[{"n":"Hero DVO","c":18796855.0,"f":7781316.0,"r":0.0,"m":"0.41x"},{"n":"PLA","c":31749867.0,"f":101000000.0,"r":0.0,"m":"3.18x"},{"n":"Direct Travel","c":17482309.0,"f":0.0,"r":86682587.0,"m":"4.96x"},{"n":"Tranzonic Companies","c":18287364.0,"f":0.0,"r":70388378.0,"m":"3.85x"},{"n":"iSystems","c":15664609.0,"f":0.0,"r":24512266.0,"m":"1.56x"},{"n":"CLC Lodging","c":9125000.0,"f":0.0,"r":55217956.0,"m":"6.05x"},{"n":"PRN (Physician Recommended Nutriceuticals)","c":20703089.0,"f":0.0,"r":120198125.0,"m":"5.81x"},{"n":"BBG (BBSI)","c":15000000.0,"f":0.0,"r":54648361.0,"m":"3.64x"},{"n":"CCS (Correct Care Solutions)","c":20250000.0,"f":0.0,"r":174206888.0,"m":"8.60x"},{"n":"Vasa Fitness","c":13629472.0,"f":0.0,"r":118957994.0,"m":"8.73x"}],"Related OZ Fund II":[{"n":"Apex Marathon Village","c":31776823.0,"f":34350134.0,"r":0.0,"m":"1.10x"},{"n":"Huguenot Phase II","c":51408051.0,"f":58565677.0,"r":0.0,"m":"1.10x"},{"n":"Infinity Park","c":41186438.0,"f":48348609.0,"r":0.0,"m":"1.20x"},{"n":"Dix Park","c":62020153.0,"f":67238632.0,"r":0.0,"m":"1.10x"},{"n":"Residences at Bolivar","c":24005225.0,"f":28860888.0,"r":0.0,"m":"1.20x"}],"Related OZ Fund III":[{"n":"300 Nevins","c":24925000.0,"f":28826060.0,"r":0.0,"m":null},{"n":"Pickle & Hide","c":15000000.0,"f":15356213.0,"r":0.0,"m":null},{"n":"4101 Greensboro Street","c":8000000.0,"f":null,"r":0.0,"m":null}],"RanchHarbor":[{"n":"Fund 1","c":500000,"f":349204,"r":0,"m":"0.70x"},{"n":"Signal Hill Industrial","c":100000,"f":100000,"r":47398,"m":"1.47x"},{"n":"Curtis Junction","c":250000,"f":358627,"r":0,"m":"1.43x"},{"n":"Albuquerque","c":200000,"f":0,"r":449069,"m":"2.25x"}],"LPP (Laguna Point)":[{"n":"Coastal Bay Apartments","c":75500000.0,"f":null,"r":0.0,"m":null},{"n":"Grove at Millenia","c":19125000.0,"f":null,"r":0.0,"m":null},{"n":"Harmon at 370","c":null,"f":null,"r":0.0,"m":null}],"Three Pillar Fund 1":[{"n":"Cameron Crossing (The Silos MHC)","c":null,"f":0.0,"r":0.0,"m":null},{"n":"Rustic Ridge MHP","c":5830987.0,"f":null,"r":0.0,"m":null},{"n":"Edgewater Estates","c":2606722.0,"f":null,"r":0.0,"m":null},{"n":"Fairplay MHP","c":8307476.0,"f":null,"r":0.0,"m":null},{"n":"RV Retreat","c":7464252.0,"f":null,"r":0.0,"m":null},{"n":"Lafayette RV Community","c":2466440.0,"f":null,"r":0.0,"m":null},{"n":"Tallahassee Oakwoods MHP","c":2498477.0,"f":null,"r":0.0,"m":null},{"n":"Greeley RV Park","c":2207214.0,"f":null,"r":0.0,"m":null},{"n":"Country Chalet / Sun Tree Hollow MHP","c":11570442.0,"f":null,"r":0.0,"m":null},{"n":"Bozeman MHC","c":null,"f":0.0,"r":null,"m":null},{"n":"Lana Lane MHC","c":null,"f":0.0,"r":null,"m":null},{"n":"Evergreen MHC","c":null,"f":0.0,"r":null,"m":null}],"OCIP":[{"n":"NEC Fund VI, L.P.","c":2000000.0,"f":1900000.0,"r":0.0,"m":"1.00x"},{"n":"OC Ocean Assets 1, LLC","c":200000.0,"f":200000.0,"r":0.0,"m":"1.00x"}],"OCIP AccelCo 1":[{"n":"Overlay Accelergen Finco, LLC","c":8800000.0,"f":9600000.0,"r":0.0,"m":"1.10x"}],"Perennial Fund I":[{"n":"Bidii Baby Foods, LLC","c":490000.0,"f":null,"r":0.0,"m":null}],"Stargen IX":[{"n":"insightsoftware","c":298200000.0,"f":988200000.0,"r":578700000.0,"m":"5.25x"},{"n":"Advarra","c":503500000.0,"f":2644600000.0,"r":2180000000.0,"m":"9.58x"},{"n":"Mercer Advisors","c":201600000.0,"f":917800000.0,"r":403200000.0,"m":"6.55x"},{"n":"Prometheus Group","c":372100000.0,"f":1990700000.0,"r":1213700000.0,"m":"8.61x"},{"n":"Clarience Technologies","c":462500000.0,"f":1979900000.0,"r":1319700000.0,"m":"7.13x"},{"n":"OEConnection","c":427300000.0,"f":1680800000.0,"r":1360500000.0,"m":"7.12x"},{"n":"Amwins Group","c":266500000.0,"f":956400000.0,"r":343700000.0,"m":"4.88x"},{"n":"MASA","c":65800000.0,"f":298000000.0,"r":66000000.0,"m":"5.53x"},{"n":"Obsidian","c":106800000.0,"f":190000000.0,"r":1500000.0,"m":"1.79x"},{"n":"Sonny's Enterprises","c":367700000.0,"f":1176400000.0,"r":211400000.0,"m":"3.77x"},{"n":"Orion Advisor Solutions","c":405200000.0,"f":743000000.0,"r":0.0,"m":"1.83x"},{"n":"Cyncly","c":411300000.0,"f":842400000.0,"r":0.0,"m":"2.05x"},{"n":"mSupply","c":682800000.0,"f":418500000.0,"r":0.0,"m":"0.61x"},{"n":"Vector Solutions","c":440500000.0,"f":562200000.0,"r":0.0,"m":"1.28x"},{"n":"AMBA","c":216900000.0,"f":430400000.0,"r":0.0,"m":"1.98x"},{"n":"First Eagle","c":300000000.0,"f":364300000.0,"r":0.0,"m":"1.21x"}],"Stargen VI Consol.":[{"n":"eResearch Technologies","c":86100000.0,"f":0.0,"r":693100000.0,"m":"8.05x"},{"n":"ConstructConnect","c":46200000.0,"f":0.0,"r":195200000.0,"m":"4.23x"},{"n":"AssetMark/Artivest","c":58000000.0,"f":0.0,"r":143600000.0,"m":"2.48x"},{"n":"Acrisure","c":30600000.0,"f":0.0,"r":334100000.0,"m":"10.92x"},{"n":"Tecomet","c":37300000.0,"f":0.0,"r":100200000.0,"m":"2.69x"},{"n":"Boyd Corporation","c":119600000.0,"f":0.0,"r":653400000.0,"m":"5.46x"},{"n":"Palomar","c":19300000.0,"f":0.0,"r":199600000.0,"m":"10.34x"},{"n":"Mercer","c":91800000.0,"f":0.0,"r":303100000.0,"m":"3.30x"},{"n":"Pretium Packaging","c":89900000.0,"f":0.0,"r":186900000.0,"m":"2.08x"},{"n":"Strategic Insight","c":136000000.0,"f":0.0,"r":322600000.0,"m":"2.37x"},{"n":"AWL (All Web Leads)","c":126100000.0,"f":0.0,"r":100000.0,"m":null},{"n":"Telestream","c":85800000.0,"f":0.0,"r":0.0,"m":null}],"GCP V":[{"n":"Confie Seguros","c":62800000.0,"f":0.0,"r":310800000.0,"m":"4.95x"},{"n":"Voice Construction Ltd.","c":85800000.0,"f":0.0,"r":300000.0,"m":null},{"n":"PRA International","c":276200000.0,"f":0.0,"r":621300000.0,"m":"2.25x"},{"n":"MidCap Financial","c":57200000.0,"f":0.0,"r":140600000.0,"m":"2.46x"},{"n":"TravelClick","c":132300000.0,"f":0.0,"r":512300000.0,"m":"3.87x"},{"n":"Evolution1","c":135400000.0,"f":0.0,"r":338200000.0,"m":"2.50x"},{"n":"Insurity","c":48600000.0,"f":0.0,"r":329000000.0,"m":"6.77x"},{"n":"Univita Health","c":149000000.0,"f":0.0,"r":-53600000.0,"m":"-0.36x"},{"n":"Netsmart Technologies","c":121500000.0,"f":0.0,"r":536500000.0,"m":"4.42x"},{"n":"AssetMark/Artivest","c":38600000.0,"f":0.0,"r":95700000.0,"m":"2.48x"},{"n":"Acrisure","c":20400000.0,"f":0.0,"r":222700000.0,"m":"10.92x"},{"n":"Tecomet","c":86900000.0,"f":0.0,"r":233700000.0,"m":"2.69x"},{"n":"Financial Horizons Group","c":80700000.0,"f":0.0,"r":143600000.0,"m":"1.78x"},{"n":"MW Industries","c":108700000.0,"f":0.0,"r":277100000.0,"m":"2.55x"},{"n":"Palomar","c":45100000.0,"f":0.0,"r":465900000.0,"m":"10.33x"},{"n":"Innovative Aftermarket Systems","c":56100000.0,"f":0.0,"r":296600000.0,"m":"5.29x"}],"OV3 (Okapi)":[{"n":"ATM.com","c":799000.0,"f":109000.0,"r":0.0,"m":"0.40x"},{"n":"ButterflyMX Holdings","c":94869.0,"f":349287.0,"r":0.0,"m":"3.70x"},{"n":"Daasity","c":1435838.0,"f":2434801.0,"r":0.0,"m":"1.70x"},{"n":"dRisk","c":261694.0,"f":450000.0,"r":349000.0,"m":"0.40x"},{"n":"Influence Apps","c":787734.0,"f":450000.0,"r":0.0,"m":"0.60x"},{"n":"Nimble for Good PBC","c":982942.0,"f":10782690.0,"r":0.0,"m":"11.40x"},{"n":"CLI Studios","c":1530000.0,"f":1728000.0,"r":1590000.0,"m":"1.10x"},{"n":"Slingshot Aerospace","c":1379999.0,"f":5029770.0,"r":0.0,"m":"3.60x"},{"n":"Specright","c":3206397.0,"f":11747849.0,"r":0.0,"m":"3.70x"},{"n":"Trellis Research","c":1550000.0,"f":7435322.0,"r":0.0,"m":"4.80x"},{"n":"TrackStreet","c":2454009.0,"f":5741767.0,"r":0.0,"m":"2.40x"},{"n":"Ubiq Security","c":1499977.0,"f":686832.0,"r":0.0,"m":"0.50x"},{"n":"WhiteFox Defense Technologies","c":2329995.0,"f":2982238.0,"r":0.0,"m":"1.30x"},{"n":"CloudKeyz","c":null,"f":1865000.0,"r":88000.0,"m":"1.70x"},{"n":"TemplarBit","c":227000.0,"f":0.0,"r":0.0,"m":null},{"n":"Jurny","c":2595000.0,"f":0.0,"r":0.0,"m":null},{"n":"Chromacode","c":692000.0,"f":0.0,"r":0.0,"m":null},{"n":"Expanse 3D","c":250000.0,"f":0.0,"r":0.0,"m":null},{"n":"SmartCSM","c":619000.0,"f":0.0,"r":0.0,"m":null}],"BVIP Fund VIII":[{"n":"EdTech Holdings","c":37900000.0,"f":36200000.0,"r":0.0,"m":"0.96x"},{"n":"geoLOGIC Systems","c":72000000.0,"f":98000000.0,"r":34800000.0,"m":"1.84x"},{"n":"INetU Holdings","c":28500000.0,"f":0.0,"r":76251927.0,"m":"2.68x"},{"n":"ECRM Holdings","c":20900000.0,"f":0.0,"r":178861266.0,"m":"8.56x"},{"n":"TriCore Solutions Holdings","c":35711221.0,"f":0.0,"r":126937255.0,"m":"3.55x"},{"n":"REAN Cloud","c":18537861.0,"f":0.0,"r":40818006.0,"m":"2.20x"},{"n":"reInvention","c":28850536.0,"f":0.0,"r":59084798.0,"m":"2.05x"},{"n":"Plasco ID Holdings","c":36032816.0,"f":0.0,"r":67265511.0,"m":"1.87x"},{"n":"Right Networks Holdings","c":31507522.0,"f":0.0,"r":322214191.0,"m":"10.23x"},{"n":"Stinson Holdings","c":48035750.0,"f":0.0,"r":62262549.0,"m":"1.30x"},{"n":"C-4 Analytics","c":45900000.0,"f":0.0,"r":110362590.0,"m":"2.40x"}],"Three Pillar Fund 2":[{"n":"Meadowlark MHC","c":4545865.0,"f":null,"r":0.0,"m":null},{"n":"Alosta MHP","c":11071090.0,"f":null,"r":0.0,"m":null},{"n":"Dotsero MHC","c":6530041.0,"f":null,"r":0.0,"m":null},{"n":"Greeley RV Park","c":11570442.0,"f":null,"r":0.0,"m":null},{"n":"Sandell Mobile Home Park","c":5950000.0,"f":null,"r":0.0,"m":null},{"n":"Continental MHP","c":5205739.0,"f":null,"r":0.0,"m":null},{"n":"Shadow Hills RV Park","c":8278318.0,"f":null,"r":0.0,"m":null},{"n":"Brookings RV Park","c":1792821.0,"f":null,"r":0.0,"m":null},{"n":"Monte Vista Mobile Home Park","c":2133000.0,"f":null,"r":0.0,"m":null},{"n":"Taft MHP","c":2863988.0,"f":null,"r":0.0,"m":null},{"n":"Purple Sage","c":3680132.0,"f":null,"r":0.0,"m":null}],"Three Pillar Directs":[{"n":"Rebar-OZ","c":150000.0,"f":150000.0,"r":0.0,"m":"1.00x"},{"n":"Genoble Ridge-OZ","c":100000.0,"f":100000.0,"r":0.0,"m":"1.00x"},{"n":"Summerville Hayes MHC","c":200000.0,"f":200000.0,"r":0.0,"m":"1.00x"},{"n":"Blue Springs MHC","c":62622.0,"f":62622.0,"r":0.0,"m":"1.00x"},{"n":"Isaiah MHC","c":null,"f":null,"r":150000.0,"m":null},{"n":"Emerald Riverstone MHC","c":50000.0,"f":14889.0,"r":78507.0,"m":"0.70x"}],"Ankona Capital II":[{"n":"ABXR Labs","c":1880151.0,"f":1880151.0,"r":0.0,"m":"1.00x"},{"n":"Alleva Corp.","c":6308007.0,"f":12534328.0,"r":0.0,"m":"2.00x"},{"n":"Canopy Tax","c":6141821.0,"f":6655533.0,"r":0.0,"m":"1.10x"},{"n":"Orca AI","c":4386932.0,"f":7662195.0,"r":0.0,"m":"1.80x"},{"n":"RegScale","c":5013733.0,"f":5013733.0,"r":0.0,"m":"1.00x"},{"n":"Rivet Health","c":3133584.0,"f":3133584.0,"r":0.0,"m":"1.00x"},{"n":"Slingshot Aerospace","c":3133586.0,"f":3133586.0,"r":0.0,"m":"1.00x"},{"n":"Smartly","c":6277068.0,"f":9951706.0,"r":0.0,"m":"1.60x"},{"n":"VideoAmp","c":5013740.0,"f":6229400.0,"r":0.0,"m":"1.20x"},{"n":"Walla Software","c":4073661.0,"f":4857054.0,"r":0.0,"m":"1.20x"}],"Astia Venture":[{"n":"AOA Dx","c":2000002.0,"f":2024659.0,"r":0.0,"m":null},{"n":"Aralez Bio","c":2249999.0,"f":2249999.0,"r":0.0,"m":null},{"n":"Catch+Release","c":1875000.0,"f":0.0,"r":0.0,"m":null},{"n":"CNote","c":1119451.0,"f":0.0,"r":0.0,"m":null},{"n":"Collate","c":140000.0,"f":140000.0,"r":0.0,"m":null},{"n":"Ellevest","c":1499996.0,"f":749998.0,"r":0.0,"m":"0.50x"},{"n":"Full Harvest","c":2171499.0,"f":2232906.0,"r":0.0,"m":null},{"n":"Goalsetter","c":1499999.0,"f":749999.0,"r":0.0,"m":"0.50x"},{"n":"Mae Health","c":1000000.0,"f":null,"r":0.0,"m":null},{"n":"Pallet","c":2000000.0,"f":0.0,"r":0.0,"m":null},{"n":"Repurpose","c":1250000.0,"f":null,"r":0.0,"m":null},{"n":"Candesant","c":2561908.0,"f":0.0,"r":0.0,"m":null}],"BV RN Continuation":[{"n":"Rightworks","c":95400000.0,"f":247400000.0,"r":6100000.0,"m":"2.66x"}],"BVLP VII":[{"n":"WIRB Group Holdings","c":99604169.0,"f":148436726.0,"r":0.0,"m":"1.49x"},{"n":"Butterfield Fulcrum Group","c":24670839.0,"f":64037388.0,"r":0.0,"m":"2.60x"},{"n":"SJI Holdings","c":25000000.0,"f":54730408.0,"r":0.0,"m":"2.19x"},{"n":"Oakstone Publishing","c":40446909.0,"f":14256784.0,"r":0.0,"m":"0.35x"},{"n":"HomePages Holdings","c":14650000.0,"f":5328721.0,"r":0.0,"m":"0.36x"},{"n":"en-Touch Systems","c":35758466.0,"f":55045845.0,"r":0.0,"m":"1.54x"},{"n":"ITM TwentyFirst","c":19971121.0,"f":59430409.0,"r":0.0,"m":"2.98x"},{"n":"Health Information Designs","c":20336426.0,"f":36970013.0,"r":0.0,"m":"1.82x"},{"n":"Petty Holdings","c":42288900.0,"f":12977561.0,"r":0.0,"m":"0.31x"},{"n":"DTT Surveillance","c":56017150.0,"f":61111563.0,"r":0.0,"m":"1.09x"},{"n":"The Competency Alliance","c":42645489.0,"f":0.0,"r":26942728.0,"m":"0.63x"}],"GGC ICF II":[{"n":"Nala Membranes","c":600000.0,"f":600000.0,"r":0.0,"m":"1.00x"},{"n":"Ateios","c":100000.0,"f":100000.0,"r":0.0,"m":"1.00x"},{"n":"Lemurian Labs","c":375000.0,"f":1158058.0,"r":0.0,"m":"3.10x"},{"n":"Pleural Dynamics","c":50000.0,"f":61721.0,"r":0.0,"m":"1.20x"},{"n":"Coral Innovations","c":700000.0,"f":1905791.0,"r":0.0,"m":"2.70x"},{"n":"Cambridge Terahertz","c":1000000.0,"f":2635661.0,"r":0.0,"m":"2.60x"},{"n":"AOA","c":1000000.0,"f":1000000.0,"r":0.0,"m":"1.00x"},{"n":"NextPower360","c":500000.0,"f":500000.0,"r":0.0,"m":"1.00x"},{"n":"Encora","c":800000.0,"f":1388962.0,"r":0.0,"m":"1.70x"},{"n":"GoPowerEV","c":539999.0,"f":939394.0,"r":0.0,"m":"1.70x"},{"n":"Reflection Analytics","c":500000.0,"f":500000.0,"r":0.0,"m":"1.00x"},{"n":"Spectrohm","c":499996.0,"f":499996.0,"r":0.0,"m":"1.00x"},{"n":"Eden Geopower","c":1050004.0,"f":1246317.0,"r":0.0,"m":"1.20x"},{"n":"Piction Health","c":100000.0,"f":100000.0,"r":0.0,"m":"1.00x"},{"n":"Aralez","c":150000.0,"f":157110.0,"r":0.0,"m":"1.00x"},{"n":"Tevard","c":299999.0,"f":337502.0,"r":0.0,"m":"1.10x"},{"n":"Fermata","c":50000.0,"f":50000.0,"r":0.0,"m":"1.00x"},{"n":"AdipoPharma","c":303347.0,"f":314461.0,"r":0.0,"m":"1.00x"},{"n":"Spiro Robotics","c":299999.0,"f":247135.0,"r":0.0,"m":"0.80x"},{"n":"Robigo","c":99998.0,"f":99998.0,"r":0.0,"m":"1.00x"},{"n":"Hoofprint Biome","c":500000.0,"f":1223314.0,"r":0.0,"m":"2.40x"},{"n":"Radical Catalyst","c":320000.0,"f":386009.0,"r":0.0,"m":"1.20x"},{"n":"Found Energy","c":250004.0,"f":250004.0,"r":0.0,"m":"1.00x"},{"n":"Impact Biosystems","c":250000.0,"f":0.0,"r":0.0,"m":null}],"OV5":[{"n":"Aline Technologies","c":250000.0,"f":250000.0,"r":0.0,"m":"1.00x"},{"n":"MagicDoor","c":699992.0,"f":769930.0,"r":0.0,"m":"1.10x"},{"n":"FeltSense Holdings","c":250000.0,"f":250000.0,"r":0.0,"m":"1.00x"},{"n":"IP Author","c":500000.0,"f":500000.0,"r":0.0,"m":"1.00x"},{"n":"Clearspace Technologies","c":500000.0,"f":500000.0,"r":0.0,"m":"1.00x"}],"Portfolia Active Aging":[{"n":"RGD LP Interest (Fund Level)","c":25000,"f":29862,"r":0,"m":"1.19x"}],"Portfolia Rising America":[{"n":"RGD LP Interest (Fund Level)","c":50000,"f":140423,"r":0,"m":"2.81x"}],"Argosy RE OZ I":[{"n":"Morrison Yard Apartments","c":10000635.0,"f":15983196.0,"r":0.0,"m":"2.50x"},{"n":"LUNA","c":8317283.0,"f":5951996.0,"r":952699.0,"m":"1.20x"},{"n":"The Annex of Bozeman","c":4037494.0,"f":5735622.0,"r":809405.0,"m":"2.40x"},{"n":"Rise on Meridian","c":17257739.0,"f":27937636.0,"r":0.0,"m":"2.30x"},{"n":"Commodore","c":18972933.0,"f":21708023.0,"r":2311013.0,"m":"1.70x"},{"n":"Casa Siena","c":16424554.0,"f":17986358.0,"r":0.0,"m":"1.60x"},{"n":"The Hunter","c":26959911.0,"f":24222321.0,"r":364.0,"m":"1.20x"},{"n":"3800-3850 Blake","c":5793656.0,"f":5793656.0,"r":210.0,"m":"1.40x"},{"n":"COYA Apartments","c":27344638.0,"f":34440309.0,"r":0.0,"m":"2.20x"},{"n":"Del Via Apartments","c":13082033.0,"f":13385962.0,"r":0.0,"m":"1.90x"},{"n":"Bartley Lofts","c":11868488.0,"f":14150459.0,"r":0.0,"m":"3.40x"},{"n":"Towns on Lone Tree","c":7000000.0,"f":6033848.0,"r":0.0,"m":"1.00x"},{"n":"Sablewood Towns","c":17922628.0,"f":16913357.0,"r":281024.0,"m":"1.50x"},{"n":"theYARD","c":19788359.0,"f":13593262.0,"r":0.0,"m":"1.70x"},{"n":"Victoria Row","c":14385618.0,"f":13696411.0,"r":0.0,"m":"1.90x"},{"n":"Senna House Scottsdale","c":8805580.0,"f":16723134.0,"r":3898591.0,"m":"3.30x"},{"n":"Hampton Inn & Suites Maui","c":18632389.0,"f":21895587.0,"r":0.0,"m":"2.20x"},{"n":"Outbound Yosemite","c":11235238.0,"f":12008881.0,"r":0.0,"m":"3.00x"},{"n":"660 J Street","c":16411195.0,"f":11975852.0,"r":163185.0,"m":"1.00x"}],"Argosy RE OZ II":[{"n":"Peer on 7th","c":17154000.0,"f":14060698.0,"r":19348.0,"m":"1.60x"},{"n":"Del Via Apartments","c":6443389.0,"f":6593086.0,"r":0.0,"m":"1.90x"},{"n":"Bartley Lofts","c":5845673.0,"f":6969629.0,"r":0.0,"m":"3.40x"},{"n":"Velocity P7","c":1250000.0,"f":1250000.0,"r":0.0,"m":"1.00x"},{"n":"Victoria Row","c":7085454.0,"f":6745993.0,"r":0.0,"m":"1.90x"},{"n":"Outbound Yosemite","c":5533774.0,"f":5914822.0,"r":0.0,"m":"3.00x"},{"n":"WestEnd Logistics","c":8608771.0,"f":12398581.0,"r":640575.0,"m":"2.70x"},{"n":"Waltham Industrial","c":12519775.0,"f":12948546.0,"r":0.0,"m":"3.20x"},{"n":"Gilbert South Anchor","c":14000000.0,"f":0.0,"r":14550921.0,"m":"1.00x"}],"PCCP Equity VIII":[{"n":"5901 Century","c":19025000.0,"f":0.0,"r":2636000.0,"m":"0.20x"},{"n":"Bainbridge St. Johns Town Center","c":17658000.0,"f":0.0,"r":40151000.0,"m":"2.30x"},{"n":"Broadstone Sienna Plantation","c":16626000.0,"f":0.0,"r":31897000.0,"m":"1.90x"},{"n":"Broadstone Timbergrove","c":19471000.0,"f":0.0,"r":29596000.0,"m":"1.50x"},{"n":"Cumberland Center II","c":23221000.0,"f":0.0,"r":2461000.0,"m":"0.10x"},{"n":"District at Chandler","c":31747000.0,"f":0.0,"r":75859000.0,"m":"2.40x"},{"n":"Effingham Portside Industrial","c":57597000.0,"f":0.0,"r":86711000.0,"m":"1.50x"},{"n":"Hanover Tysons","c":27852000.0,"f":0.0,"r":47047000.0,"m":"1.70x"},{"n":"Hodgkins Industrial","c":10660000.0,"f":0.0,"r":16136000.0,"m":"1.50x"},{"n":"Hopewell Phoenix","c":13093000.0,"f":0.0,"r":27733000.0,"m":"2.10x"},{"n":"Kearny Torrance","c":29278000.0,"f":0.0,"r":72354000.0,"m":"2.50x"},{"n":"Prose Champions","c":15921000.0,"f":0.0,"r":26911000.0,"m":"1.70x"},{"n":"Rickenbacker West II & III","c":10788000.0,"f":0.0,"r":33118000.0,"m":"3.10x"},{"n":"Rockefeller Lehigh Valley","c":46003000.0,"f":0.0,"r":97237000.0,"m":"2.10x"},{"n":"SeaTac Office Center","c":24468000.0,"f":0.0,"r":53352000.0,"m":"2.20x"},{"n":"SLS Portfolio","c":15156000.0,"f":0.0,"r":39852000.0,"m":"2.60x"},{"n":"Southlake HQ","c":31043000.0,"f":0.0,"r":39378000.0,"m":"1.30x"},{"n":"The Westerly","c":19990000.0,"f":0.0,"r":51651000.0,"m":"2.60x"},{"n":"135 W 29th","c":18742000.0,"f":6727000.0,"r":0.0,"m":"0.60x"},{"n":"Amberglen Business Center","c":24020000.0,"f":23665000.0,"r":0.0,"m":"1.30x"},{"n":"Bainbridge Avenues Walk","c":24695000.0,"f":36634000.0,"r":0.0,"m":"1.80x"},{"n":"Bainbridge Nona North","c":22284000.0,"f":30384000.0,"r":0.0,"m":"1.80x"},{"n":"Bayonne Logistics Center","c":56480000.0,"f":26191000.0,"r":0.0,"m":"0.40x"},{"n":"BeltLine & Boulevard","c":27608000.0,"f":35378000.0,"r":0.0,"m":"1.70x"},{"n":"Bloomsbury Industrial","c":2619000.0,"f":2619000.0,"r":0.0,"m":"2.00x"},{"n":"Cascade & Fountains at Morgan Falls","c":32428000.0,"f":74856000.0,"r":0.0,"m":"2.70x"},{"n":"Cascade Yard","c":24257000.0,"f":10584000.0,"r":0.0,"m":"1.00x"},{"n":"District at Windy Hill","c":22702000.0,"f":23440000.0,"r":0.0,"m":"1.40x"},{"n":"Douglasville Logistics","c":27766000.0,"f":51001000.0,"r":0.0,"m":"1.70x"},{"n":"Falls Church","c":52724000.0,"f":49555000.0,"r":0.0,"m":"1.60x"},{"n":"Palatine Industrial","c":20302000.0,"f":26298000.0,"r":0.0,"m":"1.50x"},{"n":"Park Point","c":26982000.0,"f":27270000.0,"r":0.0,"m":"1.90x"},{"n":"Resource Square","c":16564000.0,"f":6578000.0,"r":0.0,"m":"0.60x"},{"n":"Rockland LIP","c":26240000.0,"f":null,"r":0.0,"m":"2.00x"},{"n":"Rosemont Towson","c":76159000.0,"f":55980000.0,"r":0.0,"m":"1.00x"},{"n":"Southwest Corporate Campus","c":13225000.0,"f":35939000.0,"r":0.0,"m":"3.20x"},{"n":"Springs Portfolio","c":23595000.0,"f":44710000.0,"r":0.0,"m":"1.90x"},{"n":"Tri-State Industrial","c":41600000.0,"f":15664000.0,"r":0.0,"m":"1.30x"},{"n":"Valley Tech Centre","c":73652000.0,"f":17325000.0,"r":0.0,"m":null},{"n":"Westgate Shopping Center","c":24799000.0,"f":null,"r":0.0,"m":"0.90x"}],"IEQ - Bridge MF IV":[{"n":"Woodcreek Apartments","c":23992541.0,"f":11147416.0,"r":19507773.0,"m":"1.28x"},{"n":"Chapel Hill Apartments","c":78905459.0,"f":153138431.0,"r":29678412.0,"m":"2.32x"},{"n":"Grandstand Apartments","c":33106516.0,"f":38835734.0,"r":34344311.0,"m":"2.21x"},{"n":"Parkside at Town Center Apartments","c":15967688.0,"f":21017103.0,"r":4285527.0,"m":"1.58x"},{"n":"Windrift Apartments","c":17248577.0,"f":0.0,"r":38414800.0,"m":"2.23x"},{"n":"Sutton Place Apartments","c":8407636.0,"f":0.0,"r":23777544.0,"m":"2.83x"},{"n":"Array at South Mountain Apartments","c":48439049.0,"f":57156560.0,"r":51923092.0,"m":"2.25x"},{"n":"Cambria Apartments","c":11452178.0,"f":0.0,"r":30600625.0,"m":"2.67x"},{"n":"Helix Apartments","c":22157322.0,"f":27333896.0,"r":23114582.0,"m":"2.28x"},{"n":"Lore at South Mountain Apartments","c":18870538.0,"f":28046180.0,"r":13597651.0,"m":"2.21x"},{"n":"Reflections at the Lakes Apartments","c":16595119.0,"f":32523337.0,"r":24226710.0,"m":"3.42x"},{"n":"Grammercy Apartments","c":35799730.0,"f":51344654.0,"r":19631189.0,"m":"1.98x"},{"n":"Sunset 320 Apartments","c":24873108.0,"f":30877847.0,"r":16275984.0,"m":"1.90x"},{"n":"Chandler Ridge Apartments","c":21815945.0,"f":49055548.0,"r":22662818.0,"m":"3.29x"},{"n":"Vernola Marketplace Apartments","c":52273113.0,"f":95433066.0,"r":13032053.0,"m":"2.07x"},{"n":"Verona Park Apartments","c":17929860.0,"f":37973029.0,"r":7389463.0,"m":"2.53x"},{"n":"Lake Tivoli Apartments","c":25449502.0,"f":36301682.0,"r":8765302.0,"m":"1.77x"},{"n":"Liberty Creek Apartments","c":37459973.0,"f":46038118.0,"r":13795346.0,"m":"1.60x"},{"n":"Verraso Apartments","c":16807683.0,"f":38243206.0,"r":8057587.0,"m":"2.75x"},{"n":"Brookstone Apartments","c":9776457.0,"f":24574030.0,"r":5793709.0,"m":"3.11x"},{"n":"Dallas North Park Apartments","c":11446924.0,"f":23281203.0,"r":5649848.0,"m":"2.53x"},{"n":"Drawbridge Creek Apartments","c":10967773.0,"f":0.0,"r":28355461.0,"m":"2.59x"},{"n":"Edgewater at Sandy Springs Apartments","c":47837105.0,"f":55979085.0,"r":9762808.0,"m":"1.37x"},{"n":"Stoney Trace Apartments","c":19545572.0,"f":0.0,"r":35585508.0,"m":"1.82x"},{"n":"Carrollwood Station Apartments","c":11812766.0,"f":0.0,"r":28320548.0,"m":"2.40x"},{"n":"Park 2300 Apartments","c":14708318.0,"f":28755345.0,"r":5699404.0,"m":"2.34x"},{"n":"Bridges on Tropicana Apartments","c":20467054.0,"f":49192750.0,"r":12085035.0,"m":"2.99x"},{"n":"The Club at Tanasbourne Apartments","c":34897331.0,"f":0.0,"r":42637819.0,"m":"1.58x"},{"n":"The Terraces at Tanasbourne Apartments","c":37820347.0,"f":0.0,"r":39879579.0,"m":"1.41x"},{"n":"Cabana on 99th Apartments","c":14751036.0,"f":0.0,"r":45562226.0,"m":"3.09x"},{"n":"Fountains at Point West Apartments","c":38671603.0,"f":34210133.0,"r":11467778.0,"m":"1.18x"},{"n":"Bridges at Bayside Apartments","c":19656697.0,"f":34422660.0,"r":6731567.0,"m":"2.09x"},{"n":"Veranda at Westchase Apartments","c":40109751.0,"f":62409330.0,"r":8684970.0,"m":"1.77x"},{"n":"Seven Skies Apartments","c":24940212.0,"f":35481003.0,"r":0.0,"m":"1.42x"},{"n":"Harmony at Surprise Apartments","c":23367423.0,"f":33578398.0,"r":10095105.0,"m":"1.87x"},{"n":"Brightwood Forest Apartments","c":8719537.0,"f":10271957.0,"r":2989546.0,"m":"1.52x"},{"n":"Dale Forest Apartments","c":77933357.0,"f":107564701.0,"r":41661694.0,"m":"1.91x"},{"n":"Aspen Court Apartments","c":8813210.0,"f":8524920.0,"r":2152284.0,"m":"1.21x"},{"n":"Autumnwood Apartments","c":19222498.0,"f":21338542.0,"r":5623212.0,"m":"1.40x"},{"n":"Cobblestone Apartments","c":19260325.0,"f":21929491.0,"r":5442575.0,"m":"1.42x"},{"n":"Summit Ridge Apartments","c":13225485.0,"f":14777759.0,"r":3971630.0,"m":"1.42x"},{"n":"Equestrian Apartments","c":17473103.0,"f":0.0,"r":31964711.0,"m":"1.83x"},{"n":"Ridgeline Apartments","c":16228557.0,"f":21074134.0,"r":9128429.0,"m":"1.86x"},{"n":"Caribbean Breeze Apartments","c":30135659.0,"f":47639353.0,"r":11897143.0,"m":"1.98x"},{"n":"Waterford Place at Mt. Zion Apartments","c":31764670.0,"f":52298957.0,"r":8194886.0,"m":"1.90x"},{"n":"The Cove La Mesa Apartments","c":15036705.0,"f":23967607.0,"r":3104960.0,"m":"1.80x"},{"n":"Accent on Rainbow Apartments","c":28901652.0,"f":38238853.0,"r":6867761.0,"m":"1.56x"},{"n":"Accent on Sahara Apartments","c":22767807.0,"f":23419790.0,"r":13764625.0,"m":"1.63x"},{"n":"Ovation at Galatyn Park Apartments","c":24232681.0,"f":520128.0,"r":40456728.0,"m":"1.69x"},{"n":"Broadmoor Village Apartments","c":39591596.0,"f":32993524.0,"r":4151762.0,"m":"0.94x"},{"n":"Park West Apartments","c":24286896.0,"f":19784169.0,"r":3479372.0,"m":"0.96x"},{"n":"Rosehill Preserve Apartments","c":30470305.0,"f":23660289.0,"r":4773530.0,"m":"0.93x"},{"n":"Retreat at Crosstown Apartments","c":27622137.0,"f":41754539.0,"r":8623953.0,"m":"1.82x"},{"n":"Parc Roundtree Ranch Apartments","c":37666365.0,"f":19531441.0,"r":2723472.0,"m":"0.59x"}]};
 
-// Format for company display
+
 function fmtCo(v) {
-  if (v == null) return '—';
+  if (v == null) return '\u2014';
   if (Math.abs(v) >= 1e9) return '$' + (v/1e9).toFixed(1) + 'B';
   if (Math.abs(v) >= 1e6) return '$' + (v/1e6).toFixed(1) + 'M';
   if (Math.abs(v) >= 1e3) return '$' + (v/1e3).toFixed(0) + 'K';
@@ -861,7 +983,7 @@ function renderAllocBar() {
 
     const item = document.createElement('div');
     item.className = 'leg-item';
-    item.innerHTML = `<span class="dot" style="background:${ac.color}"></span>${ac.name} ${ac.pct}%`;
+    item.innerHTML = '<span class="dot" style="background:' + ac.color + '"></span>' + ac.name + ' ' + ac.pct + '%';
     legend.appendChild(item);
   });
 }
@@ -882,34 +1004,31 @@ function renderIPS() {
     const rangeLeft = (ac.ipsRange[0] / maxPct * 100).toFixed(1);
     const rangeW = ((ac.ipsRange[1] - ac.ipsRange[0]) / maxPct * 100).toFixed(1);
 
-    // Color the pct based on whether in range
     let pctColor = 'var(--green)';
     if (ac.pct < ac.ipsRange[0]) pctColor = 'var(--accent-gold)';
     if (ac.pct > ac.ipsRange[1]) pctColor = 'var(--red)';
 
-    row.innerHTML = `
-      <span class="ac-name">${ac.name}</span>
-      <div class="bar-track">
-        <div class="bar-fill" style="width:${barFillW}%;background:${ac.color}"></div>
-        <div class="target-range" style="left:${rangeLeft}%;width:${rangeW}%"></div>
-      </div>
-      <span class="pct-label" style="color:${pctColor}">${ac.pct}%</span>
-      <span class="target-label">${ac.ipsTarget}</span>
-    `;
+    row.innerHTML = '<span class="ac-name">' + ac.name + '</span>' +
+      '<div class="bar-track">' +
+      '<div class="bar-fill" style="width:' + barFillW + '%;background:' + ac.color + '"></div>' +
+      '<div class="target-range" style="left:' + rangeLeft + '%;width:' + rangeW + '%"></div>' +
+      '</div>' +
+      '<span class="pct-label" style="color:' + pctColor + '">' + ac.pct + '%</span>' +
+      '<span class="target-label">' + ac.ipsTarget + '</span>';
     container.appendChild(row);
   });
 }
 
 // ══════════════════════════════════════════════════════════════
-// RENDER: Asset Class Drilldown Cards
+// RENDER: Asset Class Drilldown Cards (Manager > Fund > Companies)
 // ══════════════════════════════════════════════════════════════
 function fmtDollar(v) {
-  if (v == null) return '—';
+  if (v == null) return '\u2014';
   if (v < 0) return '-$' + Math.abs(v).toLocaleString();
   return '$' + v.toLocaleString();
 }
 function fmtChg(v) {
-  if (v == null) return '—';
+  if (v == null) return '\u2014';
   const sign = v >= 0 ? '+' : '';
   return sign + '$' + Math.abs(v).toLocaleString();
 }
@@ -929,74 +1048,95 @@ function renderCards() {
     card.className = 'ac-card';
     card.id = 'ac-' + idx;
 
-    // Sort funds by NAV descending
-    const sortedFunds = [...ac.funds].sort((a, b) => (b.nav || 0) - (a.nav || 0));
-    const fundCount = sortedFunds.length;
+    // Count total funds across all managers
+    const totalFunds = ac.managers.reduce((sum, m) => sum + m.funds.length, 0);
 
-    card.innerHTML = `
-      <div class="ac-card-header" onclick="toggleCard(${idx})">
-        <span class="ac-dot" style="background:${ac.color}"></span>
-        <div class="ac-info">
-          <div class="ac-name">${ac.name}</div>
-          <div class="ac-sub">${fundCount} position${fundCount !== 1 ? 's' : ''}</div>
-        </div>
-        <div>
-          <div class="ac-val">${fmtDollar(ac.value)}</div>
-          <div class="ac-pct">${ac.pct}%</div>
-        </div>
-        <span class="chevron">▼</span>
-      </div>
-      <div class="ac-card-body">
-        ${sortedFunds.map((f, fi) => `
-          <div class="fund-row" onclick="toggleFund(${idx}, ${fi}, event)">
-            <span class="f-name">${f.name}</span>
-            <span class="f-cat">${f.cat}</span>
-            <span class="f-val">${fmtDollar(f.nav)}</span>
-            <span class="f-moic ${moicClass(f.moic)}">${f.moic || '—'}</span>
-            <span class="f-chev">›</span>
-          </div>
-          <div class="fund-detail" id="fd-${idx}-${fi}">
-            <div class="fd-grid">
-              ${f.vintage ? `<div class="fd-item"><span class="fd-label">Vintage</span><span class="fd-val">${f.vintage}</span></div>` : ''}
-              ${f.commitment ? `<div class="fd-item"><span class="fd-label">Commitment</span><span class="fd-val">${fmtDollar(f.commitment)}</span></div>` : ''}
-              ${f.contribs != null ? `<div class="fd-item"><span class="fd-label">Contributions</span><span class="fd-val">${fmtDollar(f.contribs)}</span></div>` : ''}
-              ${f.distribs != null ? `<div class="fd-item"><span class="fd-label">Distributions</span><span class="fd-val">${fmtDollar(f.distribs)}</span></div>` : ''}
-              ${f.q4chg != null ? `<div class="fd-item"><span class="fd-label">Q4 Change</span><span class="fd-val ${f.q4chg >= 0 ? 'chg-pos' : 'chg-neg'}">${fmtChg(f.q4chg)}</span></div>` : ''}
-              ${f.ytdchg != null ? `<div class="fd-item"><span class="fd-label">YTD Change</span><span class="fd-val ${f.ytdchg >= 0 ? 'chg-pos' : 'chg-neg'}">${fmtChg(f.ytdchg)}</span></div>` : ''}
-              ${f.unfunded != null ? `<div class="fd-item"><span class="fd-label">Unfunded</span><span class="fd-val">${fmtDollar(f.unfunded)}</span></div>` : ''}
-            </div>
-            ${(() => {
-              const cos = COMPANIES[f.name] || [];
-              if (cos.length === 0) return '';
-              return '<div class="co-section">' +
-                '<div class="co-header" onclick="toggleCoList('+idx+','+fi+',event)">' +
-                '<span class="co-title">Portfolio Companies</span>' +
-                '<span class="co-count">' + cos.length + '</span>' +
-                '<span class="co-chev" id="co-chev-'+idx+'-'+fi+'">▼</span>' +
-                '</div>' +
-                '<div class="co-list" id="co-'+idx+'-'+fi+'" style="display:none">' +
-                '<div class="co-table-header">' +
-                '<span class="co-th-name">Company</span>' +
-                '<span class="co-th-val">Cost</span>' +
-                '<span class="co-th-val">Realized</span>' +
-                '<span class="co-th-val">FMV</span>' +
-                '<span class="co-th-val">MOIC</span>' +
-                '</div>' +
-                cos.sort((a,b) => (b.f||0) - (a.f||0)).map(c =>
-                  '<div class="co-row">' +
-                  '<span class="co-name">' + c.n + (c.s ? ' <span class=\"co-status\">' + c.s + '</span>' : '') + '</span>' +
-                  '<span class="co-val">' + fmtCo(c.c) + '</span>' +
-                  '<span class="co-val">' + fmtCo(c.r) + '</span>' +
-                  '<span class="co-val">' + fmtCo(c.f) + '</span>' +
-                  '<span class="co-moic ' + (c.m && parseFloat(c.m) >= 1.5 ? 'moic-pos' : c.m && parseFloat(c.m) < 1.0 ? 'moic-neg' : 'moic-flat') + '">' + (c.m || '—') + '</span>' +
-                  '</div>'
-                ).join('') +
-                '</div></div>';
-            })()}
-          </div>
-        `).join('')}
-      </div>
-    `;
+    // Build manager rows
+    let managersHTML = '';
+    ac.managers.forEach((mgr, mi) => {
+      const mgrNav = mgr.funds.reduce((s, f) => s + (f.nav || 0), 0);
+      const fundCount = mgr.funds.length;
+
+      // Sort funds by NAV descending
+      const sortedFunds = [...mgr.funds].sort((a, b) => (b.nav || 0) - (a.nav || 0));
+
+      let fundsHTML = '';
+      sortedFunds.forEach((f, fi) => {
+        const cos = COMPANIES[f.name] || [];
+        let coHTML = '';
+        if (cos.length > 0) {
+          coHTML = '<div class="co-section">' +
+            '<div class="co-header" onclick="toggleCoList(' + idx + ',' + mi + ',' + fi + ',event)">' +
+            '<span class="co-title">Portfolio Companies</span>' +
+            '<span class="co-count">' + cos.length + '</span>' +
+            '<span class="co-chev" id="co-chev-' + idx + '-' + mi + '-' + fi + '">\u25BC</span>' +
+            '</div>' +
+            '<div class="co-list" id="co-' + idx + '-' + mi + '-' + fi + '" style="display:none">' +
+            '<div class="co-table-header">' +
+            '<span class="co-th-name">Company</span>' +
+            '<span class="co-th-val">Cost</span>' +
+            '<span class="co-th-val">Realized</span>' +
+            '<span class="co-th-val">FMV</span>' +
+            '<span class="co-th-val">MOIC</span>' +
+            '</div>' +
+            cos.sort((a,b) => (b.f||0) - (a.f||0)).map(c =>
+              '<div class="co-row">' +
+              '<span class="co-name">' + c.n + '</span>' +
+              '<span class="co-val">' + fmtCo(c.c) + '</span>' +
+              '<span class="co-val">' + fmtCo(c.r) + '</span>' +
+              '<span class="co-val">' + fmtCo(c.f) + '</span>' +
+              '<span class="co-moic ' + (c.m && parseFloat(c.m) >= 1.5 ? 'moic-pos' : c.m && parseFloat(c.m) < 1.0 ? 'moic-neg' : 'moic-flat') + '">' + (c.m || '\u2014') + '</span>' +
+              '</div>'
+            ).join('') +
+            '</div></div>';
+        }
+
+        fundsHTML += '<div class="fund-row" onclick="toggleFund(' + idx + ',' + mi + ',' + fi + ',event)">' +
+          '<span class="f-name">' + f.name + '</span>' +
+          '<span class="f-cat">' + f.cat + '</span>' +
+          '<span class="f-val">' + fmtDollar(f.nav) + '</span>' +
+          '<span class="f-moic ' + moicClass(f.moic) + '">' + (f.moic || '\u2014') + '</span>' +
+          '<span class="f-chev">\u203A</span>' +
+          '</div>' +
+          '<div class="fund-detail" id="fd-' + idx + '-' + mi + '-' + fi + '">' +
+          '<div class="fd-grid">' +
+          (f.vintage ? '<div class="fd-item"><span class="fd-label">Vintage</span><span class="fd-val">' + f.vintage + '</span></div>' : '') +
+          (f.commitment ? '<div class="fd-item"><span class="fd-label">Commitment</span><span class="fd-val">' + fmtDollar(f.commitment) + '</span></div>' : '') +
+          (f.contribs != null ? '<div class="fd-item"><span class="fd-label">Contributions</span><span class="fd-val">' + fmtDollar(f.contribs) + '</span></div>' : '') +
+          (f.distribs != null ? '<div class="fd-item"><span class="fd-label">Distributions</span><span class="fd-val">' + fmtDollar(f.distribs) + '</span></div>' : '') +
+          (f.q4chg != null ? '<div class="fd-item"><span class="fd-label">Q4 Change</span><span class="fd-val ' + (f.q4chg >= 0 ? 'chg-pos' : 'chg-neg') + '">' + fmtChg(f.q4chg) + '</span></div>' : '') +
+          (f.ytdchg != null ? '<div class="fd-item"><span class="fd-label">YTD Change</span><span class="fd-val ' + (f.ytdchg >= 0 ? 'chg-pos' : 'chg-neg') + '">' + fmtChg(f.ytdchg) + '</span></div>' : '') +
+          (f.unfunded != null ? '<div class="fd-item"><span class="fd-label">Unfunded</span><span class="fd-val">' + fmtDollar(f.unfunded) + '</span></div>' : '') +
+          '</div>' +
+          coHTML +
+          '</div>';
+      });
+
+      managersHTML += '<div class="mgr-row" onclick="toggleMgr(' + idx + ',' + mi + ',event)">' +
+        '<span class="mgr-name">' + mgr.name + '</span>' +
+        '<span class="mgr-count">' + fundCount + ' fund' + (fundCount !== 1 ? 's' : '') + '</span>' +
+        '<span class="mgr-val">' + fmtDollar(mgrNav) + '</span>' +
+        '<span class="mgr-chev" id="mgr-chev-' + idx + '-' + mi + '">\u25BC</span>' +
+        '</div>' +
+        '<div class="mgr-detail" id="mgr-' + idx + '-' + mi + '">' +
+        fundsHTML +
+        '</div>';
+    });
+
+    card.innerHTML = '<div class="ac-card-header" onclick="toggleCard(' + idx + ')">' +
+      '<span class="ac-dot" style="background:' + ac.color + '"></span>' +
+      '<div class="ac-info">' +
+      '<div class="ac-name">' + ac.name + '</div>' +
+      '<div class="ac-sub">' + ac.managers.length + ' manager' + (ac.managers.length !== 1 ? 's' : '') + ' \u00B7 ' + totalFunds + ' fund' + (totalFunds !== 1 ? 's' : '') + '</div>' +
+      '</div>' +
+      '<div>' +
+      '<div class="ac-val">' + fmtDollar(ac.value) + '</div>' +
+      '<div class="ac-pct">' + ac.pct + '%</div>' +
+      '</div>' +
+      '<span class="chevron">\u25BC</span>' +
+      '</div>' +
+      '<div class="ac-card-body">' + managersHTML + '</div>';
+
     container.appendChild(card);
   });
 }
@@ -1005,10 +1145,10 @@ function renderCards() {
 // INTERACTIVITY
 // ══════════════════════════════════════════════════════════════
 
-function toggleCoList(acIdx, fundIdx, e) {
+function toggleCoList(acIdx, mgrIdx, fundIdx, e) {
   e.stopPropagation();
-  const list = document.getElementById('co-' + acIdx + '-' + fundIdx);
-  const chev = document.getElementById('co-chev-' + acIdx + '-' + fundIdx);
+  const list = document.getElementById('co-' + acIdx + '-' + mgrIdx + '-' + fundIdx);
+  const chev = document.getElementById('co-chev-' + acIdx + '-' + mgrIdx + '-' + fundIdx);
   if (list.style.display === 'none') {
     list.style.display = 'block';
     chev.style.transform = 'rotate(180deg)';
@@ -1023,9 +1163,21 @@ function toggleCard(idx) {
   card.classList.toggle('expanded');
 }
 
-function toggleFund(acIdx, fundIdx, e) {
+function toggleMgr(acIdx, mgrIdx, e) {
   e.stopPropagation();
-  const detail = document.getElementById('fd-' + acIdx + '-' + fundIdx);
+  const detail = document.getElementById('mgr-' + acIdx + '-' + mgrIdx);
+  const chev = document.getElementById('mgr-chev-' + acIdx + '-' + mgrIdx);
+  detail.classList.toggle('show');
+  if (detail.classList.contains('show')) {
+    chev.style.transform = 'rotate(180deg)';
+  } else {
+    chev.style.transform = '';
+  }
+}
+
+function toggleFund(acIdx, mgrIdx, fundIdx, e) {
+  e.stopPropagation();
+  const detail = document.getElementById('fd-' + acIdx + '-' + mgrIdx + '-' + fundIdx);
   detail.classList.toggle('show');
 }
 
@@ -1037,7 +1189,6 @@ renderIPS();
 renderCards();
 
 // Password gate
-// Hash comparison so password isn't in plain text
 async function hashStr(s) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
