@@ -671,6 +671,97 @@
     75% { transform: translateX(6px); }
   }
   .main-content.locked { display: none; }
+
+  /* ═══ SEARCH BAR ═══ */
+  .search-wrap {
+    position: relative;
+    margin: 0 16px 12px;
+  }
+  .search-wrap input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 40px 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-wrap input:focus {
+    border-color: var(--accent-gold);
+  }
+  .search-wrap input::placeholder { color: #8893a7; }
+  .search-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #8893a7;
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+    padding: 4px 8px;
+  }
+  .search-clear.show { display: block; }
+  .search-results {
+    margin: 0 16px 12px;
+    display: none;
+  }
+  .search-results.show { display: block; }
+  .search-results-label {
+    font-size: 12px;
+    color: #8893a7;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .sr-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: border-color 0.15s;
+  }
+  .sr-item:hover, .sr-item:active {
+    border-color: var(--accent-gold);
+  }
+  .sr-name {
+    font-size: 14px;
+    color: var(--text);
+  }
+  .sr-name mark {
+    background: rgba(232, 185, 74, 0.3);
+    color: var(--text);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+  .sr-meta {
+    font-size: 11px;
+    color: #8893a7;
+    margin-top: 2px;
+  }
+  .sr-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--border);
+    color: #8893a7;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+  .sr-badge.fund { background: rgba(232, 185, 74, 0.15); color: var(--accent-gold); }
+  .sr-badge.company { background: rgba(78, 205, 196, 0.15); color: #4ecdc4; }
+  .sr-badge.manager { background: rgba(162, 136, 227, 0.15); color: #a288e3; }
 </style>
 </head>
 <body>
@@ -716,6 +807,13 @@
     <div class="stat-label">Illiquid</div>
   </div>
 </div>
+
+<!-- ═══ SEARCH BAR ═══ -->
+<div class="search-wrap">
+  <input type="text" id="searchInput" placeholder="Search funds, managers, or companies..." autocomplete="off" />
+  <button class="search-clear" id="searchClear" onclick="clearSearch()">&times;</button>
+</div>
+<div class="search-results" id="searchResults"></div>
 
 <!-- ═══ ALLOCATION BAR ═══ -->
 <div class="section">
@@ -1265,6 +1363,152 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('pwInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') checkPw();
   });
+});
+
+/* ═══ SEARCH ═══ */
+function buildSearchIndex() {
+  const idx = [];
+  // Index managers
+  assetClasses.forEach((ac, acIdx) => {
+    (ac.managers || []).forEach((mgr, mgrIdx) => {
+      idx.push({ type: 'manager', name: mgr.name, acIdx: acIdx, mgrIdx: mgrIdx, meta: ac.name });
+      // Index funds
+      (mgr.funds || []).forEach((fund, fundIdx) => {
+        idx.push({ type: 'fund', name: fund.name, acIdx: acIdx, mgrIdx: mgrIdx, fundIdx: fundIdx, meta: mgr.name, nav: fund.nav, moic: fund.moic });
+        // Index companies
+        var key = fund.name;
+        var cos = COMPANIES[key] || [];
+        cos.forEach((c, coIdx) => {
+          idx.push({ type: 'company', name: c.n, acIdx: acIdx, mgrIdx: mgrIdx, fundIdx: fundIdx, coIdx: coIdx, meta: fund.name, industry: c.i || '', moic: c.m || '' });
+        });
+      });
+    });
+  });
+  return idx;
+}
+var searchIndex = [];
+
+function highlightMatch(text, query) {
+  if (!query) return text;
+  var re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function doSearch(query) {
+  var box = document.getElementById('searchResults');
+  var clearBtn = document.getElementById('searchClear');
+  if (!query || query.length < 2) {
+    box.classList.remove('show');
+    box.innerHTML = '';
+    clearBtn.classList.toggle('show', query.length > 0);
+    return;
+  }
+  clearBtn.classList.add('show');
+  if (searchIndex.length === 0) searchIndex = buildSearchIndex();
+  var q = query.toLowerCase();
+  var matches = searchIndex.filter(function(item) {
+    return item.name.toLowerCase().indexOf(q) !== -1 ||
+           (item.industry && item.industry.toLowerCase().indexOf(q) !== -1) ||
+           (item.meta && item.meta.toLowerCase().indexOf(q) !== -1);
+  });
+  if (matches.length === 0) {
+    box.innerHTML = '<div class="search-results-label">No results for "' + query + '"</div>';
+    box.classList.add('show');
+    return;
+  }
+  // Limit to 20 results
+  var shown = matches.slice(0, 20);
+  var html = '<div class="search-results-label">' + matches.length + ' result' + (matches.length !== 1 ? 's' : '') + '</div>';
+  shown.forEach(function(item) {
+    var badge = '<span class="sr-badge ' + item.type + '">' + item.type + '</span>';
+    var metaLine = item.meta || '';
+    if (item.type === 'company' && item.industry) metaLine += ' · ' + item.industry;
+    if (item.type === 'fund' && item.nav) metaLine += ' · ' + fmtDollar(item.nav);
+    if (item.moic && item.moic !== 'N/A') metaLine += ' · ' + item.moic;
+    html += '<div class="sr-item" onclick="goToResult(' + JSON.stringify(item).replace(/"/g, '&quot;') + ')">' +
+      '<div><div class="sr-name">' + highlightMatch(item.name, query) + '</div>' +
+      (metaLine ? '<div class="sr-meta">' + highlightMatch(metaLine, query) + '</div>' : '') +
+      '</div>' + badge + '</div>';
+  });
+  if (matches.length > 20) {
+    html += '<div class="sr-meta" style="text-align:center;padding:8px">... and ' + (matches.length - 20) + ' more</div>';
+  }
+  box.innerHTML = html;
+  box.classList.add('show');
+}
+
+function goToResult(item) {
+  clearSearch();
+  // Expand the asset class card
+  var acCard = document.querySelectorAll('.card')[item.acIdx];
+  if (acCard) {
+    var det = acCard.querySelector('.card-detail');
+    if (det && det.style.display === 'none') {
+      toggleCard(item.acIdx);
+    }
+    // Expand the manager
+    var mgrDet = document.getElementById('mgr-det-' + item.acIdx + '-' + item.mgrIdx);
+    if (mgrDet && mgrDet.style.display === 'none') {
+      toggleMgr(item.acIdx, item.mgrIdx);
+    }
+    // Expand the fund detail if needed
+    if (item.type === 'company' && item.fundIdx !== undefined) {
+      var fundDet = document.getElementById('fund-det-' + item.acIdx + '-' + item.mgrIdx + '-' + item.fundIdx);
+      if (fundDet && fundDet.style.display === 'none') {
+        toggleFund(item.acIdx, item.mgrIdx, item.fundIdx);
+      }
+      // Expand the company list
+      var coList = document.getElementById('co-' + item.acIdx + '-' + item.mgrIdx + '-' + item.fundIdx);
+      if (coList && coList.style.display === 'none') {
+        toggleCoList(item.acIdx, item.mgrIdx, item.fundIdx, { stopPropagation: function(){} });
+      }
+      // Expand the specific company
+      var coDetId = item.acIdx + '-' + item.mgrIdx + '-' + item.fundIdx + '-' + item.coIdx;
+      var coDet = document.getElementById('co-det-' + coDetId);
+      if (coDet && !coDet.classList.contains('show')) {
+        toggleCo({ stopPropagation: function(){} }, coDetId);
+      }
+      // Scroll to it
+      setTimeout(function() {
+        var el = document.getElementById('co-det-' + coDetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 150);
+    } else if (item.type === 'fund' && item.fundIdx !== undefined) {
+      var fundDet = document.getElementById('fund-det-' + item.acIdx + '-' + item.mgrIdx + '-' + item.fundIdx);
+      if (fundDet && fundDet.style.display === 'none') {
+        toggleFund(item.acIdx, item.mgrIdx, item.fundIdx);
+      }
+      setTimeout(function() {
+        var el = document.getElementById('fund-det-' + item.acIdx + '-' + item.mgrIdx + '-' + item.fundIdx);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 150);
+    } else {
+      // Manager - scroll to it
+      setTimeout(function() {
+        var el = document.getElementById('mgr-det-' + item.acIdx + '-' + item.mgrIdx);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 150);
+    }
+  }
+}
+
+function clearSearch() {
+  var input = document.getElementById('searchInput');
+  input.value = '';
+  document.getElementById('searchResults').classList.remove('show');
+  document.getElementById('searchResults').innerHTML = '';
+  document.getElementById('searchClear').classList.remove('show');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var si = document.getElementById('searchInput');
+  if (si) {
+    var debounce;
+    si.addEventListener('input', function() {
+      clearTimeout(debounce);
+      debounce = setTimeout(function() { doSearch(si.value.trim()); }, 150);
+    });
+  }
 });
 
 </script>
